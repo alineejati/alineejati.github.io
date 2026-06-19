@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شارژ کیف پول | رندرنت</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; color: #1f2937; }
+        .form-container { background: white; padding: 35px; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); width: 100%; max-width: 400px; border: 1px solid #e5e7eb; }
+        h2 { color: #5b3cc4; margin-bottom: 25px; text-align: center; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; color: #374151; }
+        input { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-family: 'Vazir', Tahoma, sans-serif; font-size: 0.95rem; margin-bottom: 20px; background: #f9fafb; }
+        button { width: 100%; padding: 14px; background: #00a878; border: none; color: white; font-weight: bold; border-radius: 30px; font-size: 1rem; cursor: pointer; font-family: 'Vazir', Tahoma, sans-serif; transition: 0.2s; }
+        button:hover { background: #059669; }
+        .success-msg { display: none; background: #e6f9f3; color: #00a878; padding: 12px; border-radius: 10px; margin-top: 20px; text-align: center; font-weight: 600; }
+        .current-credit { text-align: center; margin-bottom: 25px; color: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>💰 شارژ کیف پول</h2>
+        <div class="current-credit">موجودی: <strong id="currentCredit">۰ تومان</strong></div>
+        <form id="walletForm">
+            <label>مبلغ (تومان)</label>
+            <input type="number" id="amount" value="500000" min="10000">
+            <button type="submit">شارژ</button>
+        </form>
+        <div class="success-msg" id="successMsg">✅ شارژ انجام شد!</div>
+    </div>
+    <script>
+        const phone = localStorage.getItem('currentUserPhone');
+        const creditKey = 'credit_' + phone;
+        if (!localStorage.getItem(creditKey)) localStorage.setItem(creditKey, '2500000');
+        document.getElementById('currentCredit').textContent = parseInt(localStorage.getItem(creditKey)).toLocaleString() + ' تومان';
+
+        document.getElementById('walletForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseInt(document.getElementById('amount').value);
+            let current = parseInt(localStorage.getItem(creditKey));
+            const newCredit = current + amount;
+            localStorage.setItem(creditKey, newCredit.toString());
+            document.getElementById('currentCredit').textContent = newCredit.toLocaleString() + ' تومان';
+            document.getElementById('successMsg').style.display = 'block';
+            this.reset();
+        });
+    </script>
+</body>
+</html>

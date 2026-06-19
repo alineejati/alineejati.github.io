@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | تحلیل بازار و مشتری</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Content Section */
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card p { color: var(--gray-600); margin-bottom: 12px; }
+        .card strong { color: var(--gray-800); }
+
+        /* Persona Cards */
+        .persona-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px;
+        }
+        .persona-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 24px;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .persona-card:hover { box-shadow: var(--shadow-md); }
+        .persona-card__header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+        }
+        .persona-card__avatar {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--primary-bg); display: flex;
+            align-items: center; justify-content: center;
+            font-size: 1.8rem; font-weight: 700; color: var(--primary);
+        }
+        .persona-card__name { font-size: 1.1rem; font-weight: 700; color: var(--gray-900); }
+        .persona-card__role { font-size: 0.85rem; color: var(--gray-400); }
+        .persona-card__item { margin-bottom: 10px; font-size: 0.9rem; color: var(--gray-600); }
+        .persona-card__item strong { color: var(--gray-800); margin-left: 6px; }
+
+        /* Decision Path */
+        .decision-path {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px; margin: 20px 0;
+        }
+        .decision-step {
+            background: var(--primary-bg); border-radius: 30px;
+            padding: 10px 20px; font-weight: 700; font-size: 0.9rem;
+            color: var(--primary); white-space: nowrap;
+        }
+        .decision-arrow { color: var(--gray-400); font-size: 1.2rem; }
+
+        /* Market size highlight */
+        .market-size {
+            background: var(--accent-light); border-radius: var(--radius-lg);
+            padding: 24px; margin: 20px 0; text-align: center;
+        }
+        .market-size h3 { font-size: 1.8rem; color: var(--accent); margin-bottom: 6px; }
+        .market-size p { color: var(--gray-600); margin: 0; }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .persona-grid { grid-template-columns: 1fr; }
+            .nav__links { display: none; }
+            .decision-path { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="market.html">بازار</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📊 تحلیل بازار و مشتری</h1>
+            <p>شناخت دقیق مشتری هدف، ابعاد بازار و مسیر رسیدن به تصمیم</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- تعریف مشتری هدف -->
+            <div class="card">
+                <h2 class="section-title">🎯 تعریف مشتری هدف</h2>
+                <p>
+                    رندرنت دو گروه اصلی از مشتریان را هدف قرار می‌دهد:
+                    <br><strong>۱. متقاضیان پردازش:</strong> افرادی که به توان محاسباتی بالا نیاز دارند اما توان یا تمایل به خرید سخت‌افزار گران‌قیمت ندارند.
+                    <br><strong>۲. عرضه‌کنندگان قدرت پردازش:</strong> صاحبان سیستم‌های قدرتمند که در ساعات بیکاری سیستم خود به دنبال کسب درآمد غیرفعال هستند.
+                </p>
+            </div>
+
+            <!-- تقسیم‌بندی بازار -->
+            <div class="card">
+                <h2 class="section-title">🧩 تقسیم‌بندی بازار</h2>
+                <p><strong>بازار متقاضیان:</strong></p>
+                <p>
+                    • دانشجویان معماری و طراحی سه‌بعدی<br>
+                    • انیمیشن‌سازان فریلنسر<br>
+                    • توسعه‌دهندگان هوش مصنوعی و یادگیری عمیق<br>
+                    • استارتاپ‌های حوزه واقعیت مجازی و متاورس<br>
+                    • دانشجویان و پژوهشگران علوم داده
+                </p>
+                <p style="margin-top: 16px;"><strong>بازار عرضه‌کنندگان:</strong></p>
+                <p>
+                    • گیمرهای حرفه‌ای و نیمه‌حرفه‌ای<br>
+                    • کافی‌نت‌ها و گیم‌نت‌های مدرن<br>
+                    • استودیوهای طراحی و معماری<br>
+                    • کاربران خانگی با سیستم‌های رده‌بالا
+                </p>
+            </div>
+
+            <!-- پرسوناها -->
+            <h2 class="section-title" style="margin-top: 40px;">👤 پرسونای مشتریان</h2>
+            <div class="persona-grid">
+                <!-- پرسونای ۱: متقاضی -->
+                <div class="persona-card">
+                    <div class="persona-card__header">
+                        <div class="persona-card__avatar">س</div>
+                        <div>
+                            <div class="persona-card__name">سارا محمدی</div>
+                            <div class="persona-card__role">دانشجوی معماری • ۲۳ ساله</div>
+                        </div>
+                    </div>
+                    <div class="persona-card__item"><strong>نیاز اصلی:</strong> رندر سریع پروژه‌های ترم و پایان‌نامه</div>
+                    <div class="persona-card__item"><strong>مشکل فعلی:</strong> لپ‌تاپ ضعیف — ۱۸ ساعت زمان برای یک رندر</div>
+                    <div class="persona-card__item"><strong>رفتار دیجیتال:</strong> فعال در تلگرام، اینستاگرام، فروم‌های معماری</div>
+                    <div class="persona-card__item"><strong>دلیل استفاده از سایت:</strong> رندر ۹۰ دقیقه‌ای با هزینه ۶۵ هزار تومان</div>
+                    <div class="persona-card__item"><strong>دلیل عدم استفاده:</strong> نگرانی از امنیت فایل پروژه</div>
+                </div>
+                <!-- پرسونای ۲: عرضه‌کننده -->
+                <div class="persona-card">
+                    <div class="persona-card__header">
+                        <div class="persona-card__avatar">م</div>
+                        <div>
+                            <div class="persona-card__name">محمد قاسمی</div>
+                            <div class="persona-card__role">گیمر و کارمند • ۲۸ ساله</div>
+                        </div>
+                    </div>
+                    <div class="persona-card__item"><strong>نیاز اصلی:</strong> درآمد غیرفعال از سیستم گیمینگ بیکار</div>
+                    <div class="persona-card__item"><strong>مشکل فعلی:</strong> سیستم ۱۰۰ میلیونی فقط روزی ۲ ساعت استفاده می‌شود</div>
+                    <div class="persona-card__item"><strong>رفتار دیجیتال:</strong> دیسکورد، یوتیوب، Twitch، فروشگاه‌های قطعات</div>
+                    <div class="persona-card__item"><strong>دلیل استفاده از سایت:</strong> درآمد ۳ میلیون تومان در ماه بدون استهلاک</div>
+                    <div class="persona-card__item"><strong>دلیل عدم استفاده:</strong> ترس از ویروسی شدن سیستم یا آسیب سخت‌افزاری</div>
+                </div>
+            </div>
+
+            <!-- نیازها و دردها -->
+            <div class="card">
+                <h2 class="section-title">💢 نیازها و دردهای مشتری</h2>
+                <p><strong>متقاضیان:</strong> نیاز به پردازش سریع و ارزان — دردِ خرید سخت‌افزار گران، زمان انتظار طولانی، تحریم سرویس‌های خارجی.</p>
+                <p><strong>عرضه‌کنندگان:</strong> نیاز به درآمد غیرفعال — دردِ خواب سرمایه، استهلاک بدون بازده، نبود بازار شفاف برای اجاره قدرت پردازش.</p>
+            </div>
+
+            <!-- اندازه تقریبی بازار -->
+            <div class="market-size">
+                <h3>حداقل ۵۰۰,۰۰۰ کاربر بالقوه</h3>
+                <p>
+                    حدود ۲۰۰ هزار دانشجوی معماری، هنر و کامپیوتر + ۱۵۰ هزار فریلنسر انیمیشن و AI + ۱۵۰ هزار گیمر و صاحب سیستم رده‌بالا در ایران
+                </p>
+            </div>
+
+            <!-- رفتار خرید و مسیر تصمیم‌گیری -->
+            <div class="card">
+                <h2 class="section-title">🛤️ رفتار خرید و مسیر تصمیم‌گیری مشتری</h2>
+                <p>مشتری (متقاضی پردازش) معمولاً در مواجهه با یک پروژه سنگین به دنبال راه‌حل می‌گردد. مسیر تصمیم‌گیری او به این شکل است:</p>
+                <div class="decision-path">
+                    <span class="decision-step">مواجهه با پروژه سنگین</span>
+                    <span class="decision-arrow">→</span>
+                    <span class="decision-step">جستجوی آنلاین راه‌حل</span>
+                    <span class="decision-arrow">→</span>
+                    <span class="decision-step">مقایسه گزینه‌ها (خرید، کافی‌نت، خارجی)</span>
+                    <span class="decision-arrow">→</span>
+                    <span class="decision-step">محاسبه قیمت در رندرنت</span>
+                    <span class="decision-arrow">→</span>
+                    <span class="decision-step">ثبت سفارش یا انصراف</span>
+                </div>
+                <p style="margin-top: 16px;"><strong>نکته:</strong> ارائه یک محاسبه‌گر قیمت شفاف و رایگان، مهم‌ترین عامل در مرحله «ارزیابی» و تبدیل بازدیدکننده به مشتری است.</p>
+            </div>
+
+            <!-- موانع پذیرش -->
+            <div class="card">
+                <h2 class="section-title">🚧 موانع پذیرش ایده توسط مشتری</h2>
+                <p>
+                    <strong>۱. عدم اعتماد:</strong> ترس از سرقت فایل‌های پروژه یا آلوده شدن سیستم عرضه‌کننده.<br>
+                    <strong>۲. کیفیت اینترنت:</strong> نگرانی از قطعی یا سرعت پایین در آپلود فایل‌های حجیم.<br>
+                    <strong>۳. پیچیدگی فنی:</strong> دشواری کار با پلتفرم برای کاربران غیرفنی.<br>
+                    <strong>۴. عدم آگاهی:</strong> بسیاری از کاربران هنوز نمی‌دانند چنین خدمتی اصلاً وجود دارد.<br>
+                    <strong>۵. رقابت با گزینه‌های رایگان:</strong> برخی کاربران ترجیح می‌دهند با صرف زمان بیشتر، از سیستم خود استفاده کنند.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | تحلیل صنعت و رقبا</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Content */
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card p, .card li { color: var(--gray-600); margin-bottom: 10px; }
+        .card strong { color: var(--gray-800); }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto; margin: 20px 0;
+        }
+        table {
+            width: 100%; border-collapse: collapse; min-width: 700px;
+            font-size: 0.9rem;
+        }
+        th {
+            background: var(--primary); color: #fff; padding: 14px 12px;
+            font-weight: 700; font-size: 0.85rem; text-align: center;
+        }
+        td {
+            padding: 12px; border-bottom: 1px solid var(--gray-200);
+            text-align: center; color: var(--gray-600); vertical-align: middle;
+        }
+        tr:hover td { background: var(--gray-50); }
+        .table-highlight { background: var(--accent-light); }
+        .table-highlight td { font-weight: 700; color: var(--gray-800); }
+
+        /* Advantage Cards */
+        .advantage-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+            margin: 20px 0;
+        }
+        .advantage-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius); padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .advantage-card h4 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .advantage-card p { font-size: 0.88rem; color: var(--gray-600); }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .advantage-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="competition.html">رقبا</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🔍 تحلیل صنعت و رقبا</h1>
+            <p>بررسی جایگاه رندرنت در اکوسیستم رایانش ابری و پردازش توزیع‌شده</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- معرفی صنعت -->
+            <div class="card">
+                <h2 class="section-title">🏭 معرفی صنعت یا حوزه فعالیت</h2>
+                <p>
+                    رندرنت در دو صنعت هم‌پوشان فعالیت می‌کند: 
+                    <strong>رایانش ابری (Cloud Computing)</strong> و <strong>اقتصاد اشتراکی (Sharing Economy)</strong>. 
+                    رایانش ابری در ایران به دلیل تحریم‌ها، با چالش‌های جدی مواجه است و 
+                    اقتصاد اشتراکی نیز با ظهور پلتفرم‌هایی مانند اسنپ و دیجی‌کالا در حال بلوغ است. 
+                    رندرنت با ترکیب این دو مفهوم، بازاری جدید در داخل کشور خلق می‌کند.
+                </p>
+            </div>
+
+            <!-- روندهای مهم بازار -->
+            <div class="card">
+                <h2 class="section-title">📈 روندهای مهم بازار</h2>
+                <p>
+                    <strong>۱. رشد نمایی هوش مصنوعی:</strong> تقاضا برای پردازش‌های سنگین با ظهور مدل‌های زبانی بزرگ و تولید محتوای هوش مصنوعی به شدت افزایش یافته است.
+                    <br><strong>۲. بحران کمبود GPU در جهان:</strong> قیمت کارت‌های گرافیک حرفه‌ای سر به فلک کشیده و عرضه محدود است.
+                    <br><strong>۳. مهاجرت به سرویس‌های ابری:</strong> کسب‌وکارها به جای خرید سرور، به اجارهٔ منابع ابری روی می‌آورند.
+                    <br><strong>۴. رشد فریلنسری:</strong> تعداد فریلنسرها در حوزه‌های طراحی، انیمیشن و AI در ایران و جهان رو به افزایش است.
+                    <br><strong>۵. بلوغ اقتصاد اشتراکی:</strong> کاربران ایرانی به پلتفرم‌های اشتراکی (تاکسی، خانه، کالا) اعتماد بیشتری پیدا کرده‌اند.
+                </p>
+            </div>
+
+            <!-- رقبای مستقیم و غیرمستقیم -->
+            <div class="card">
+                <h2 class="section-title">🎯 رقبای مستقیم و غیرمستقیم</h2>
+                <p><strong>رقبای مستقیم (پلتفرم‌های مشابه داخلی):</strong></p>
+                <p>
+                    رندرفارم‌های داخلی محدودی مانند «رندر ایران» و «رندر سریع» وجود دارند که عمدتاً مبتنی بر سرورهای متمرکز خودشان هستند و قیمت‌های بالایی دارند. پلتفرم P2P برای اجارهٔ قدرت پردازش در ایران هنوز به‌صورت جدی وجود ندارد.
+                </p>
+                <p style="margin-top: 16px;"><strong>رقبای غیرمستقیم:</strong></p>
+                <p>
+                    • سرویس‌های ابری خارجی: Amazon AWS, Google Cloud, Microsoft Azure, Google Colab<br>
+                    • رندرفارم‌های خارجی: SheepIt, RenderStreet, GarageFarm<br>
+                    • استخراج‌کنندگان رمزارز: که از GPU برای ماینینگ استفاده می‌کنند (رقابت بر سر منابع GPU)
+                </p>
+                <p style="margin-top: 16px;"><strong>جایگزین‌های سنتی یا آفلاین:</strong></p>
+                <p>
+                    • خرید سخت‌افزار شخصی<br>
+                    • کافی‌نت‌ها و گیم‌نت‌های تخصصی<br>
+                    • استفاده از سیستم‌های دوستان و آشنایان
+                </p>
+            </div>
+
+            <!-- جدول مقایسه‌ای -->
+            <div class="card">
+                <h2 class="section-title">📋 جدول مقایسه با رقبا</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>نام رقیب / جایگزین</th>
+                                <th>نوع خدمت</th>
+                                <th>مشتری هدف</th>
+                                <th>قیمت / مدل درآمدی</th>
+                                <th>نقاط قوت</th>
+                                <th>نقاط ضعف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>رندرفارم‌های داخلی</td>
+                                <td>رندر متمرکز روی سرور</td>
+                                <td>معماران، انیمیشن‌سازان</td>
+                                <td>ساعتی — نسبتاً بالا</td>
+                                <td>امنیت نسبی، پشتیبانی فارسی</td>
+                                <td>ظرفیت محدود، قیمت بالا</td>
+                            </tr>
+                            <tr>
+                                <td>AWS / Google Cloud</td>
+                                <td>رایانش ابری عمومی</td>
+                                <td>توسعه‌دهندگان، استارتاپ‌ها</td>
+                                <td>پرداخت به ازای مصرف — ارزی</td>
+                                <td>مقیاس عظیم، تنوع سرویس</td>
+                                <td>تحریم، پرداخت ارزی دشوار</td>
+                            </tr>
+                            <tr>
+                                <td>کافی‌نت تخصصی</td>
+                                <td>اجاره سیستم فیزیکی</td>
+                                <td>دانشجویان، گیمرها</td>
+                                <td>ساعتی — حضوری</td>
+                                <td>دسترسی حضوری، بدون نیاز به اینترنت</td>
+                                <td>نیاز به حضور فیزیکی، هزینه بالا</td>
+                            </tr>
+                            <tr>
+                                <td>خرید سخت‌افزار شخصی</td>
+                                <td>مالکیت کامل</td>
+                                <td>تمامی کاربران</td>
+                                <td>یکبار — بسیار بالا</td>
+                                <td>دسترسی همیشگی، بدون وابستگی</td>
+                                <td>هزینه اولیه ۵۰ تا ۱۰۰ میلیون تومان</td>
+                            </tr>
+                            <tr class="table-highlight">
+                                <td><strong>🔮 رندرنت</strong></td>
+                                <td>پردازش توزیع‌شده P2P</td>
+                                <td>فریلنسرها، دانشجویان، توسعه‌دهندگان AI</td>
+                                <td>پرداخت به ازای مصرف — ریالی، از ۵۰ هزار تومان</td>
+                                <td>قیمت پایین، بومی، بدون تحریم، درآمد برای عرضه‌کننده</td>
+                                <td>نیاز به اعتمادسازی، وابسته به کیفیت اینترنت</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- مزیت رقابتی -->
+            <div class="card">
+                <h2 class="section-title">🏆 تحلیل مزیت رقابتی</h2>
+                <div class="advantage-grid">
+                    <div class="advantage-card">
+                        <h4>💰 قیمت رقابتی</h4>
+                        <p>با مدل P2P و حذف هزینه‌های سرور متمرکز، قیمت تمام‌شده بسیار کمتر از رقبای داخلی و خارجی است.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>🇮🇷 بومی و بدون تحریم</h4>
+                        <p>کاملاً در داخل کشور، با ریال و بدون نیاز به فیلترشکن یا پرداخت ارزی. این بزرگترین مزیت در برابر AWS و Colab است.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>🔄 اثر شبکه‌ای دوطرفه</h4>
+                        <p>هر کاربر جدید (چه متقاضی، چه عرضه‌کننده) باعث افزایش ارزش پلتفرم می‌شود. این اثر شبکه‌ای سدی در برابر رقبای تازه‌وارد است.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>🔒 امنیت و اعتماد</h4>
+                        <p>رمزنگاری سرتاسری و عدم دسترسی عرضه‌کننده به محتوای فایل، برگ برنده‌ای نسبت به کافی‌نت‌ها و روش‌های سنتی است.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تهدیدهای اصلی -->
+            <div class="card">
+                <h2 class="section-title">⚠️ تهدیدهای اصلی بازار</h2>
+                <p>
+                    <strong>۱. ورود رقبای قدرتمند:</strong> اگر یک پلتفرم خارجی مشابه تحریم‌ها را دور بزند یا یک شرکت بزرگ داخلی (مثل ابر آروان) وارد این حوزه شود.
+                    <br><strong>۲. تغییرات فناوری:</strong> پیشرفت سرویس‌های ابری رایگان یا کاهش شدید قیمت GPU که نیاز به اجاره را کم کند.
+                    <br><strong>۳. مشکلات زیرساخت اینترنت:</strong> تشدید محدودیت‌های پهنای باند یا قطعی‌های مکرر.
+                    <br><strong>۴. چالش‌های قانونی:</strong> وضع قوانین محدودکننده برای پلتفرم‌های اشتراکی یا پردازش توزیع‌شده.
+                    <br><strong>۵. بی‌اعتمادی اولیه:</strong> عدم استقبال کاربران به دلیل نگرانی‌های امنیتی در ماه‌های اول.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | جمع‌بندی پروژه</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: linear-gradient(135deg, var(--primary-bg), var(--accent-light));
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 24px;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .summary-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .summary-card__icon { font-size: 2rem; margin-bottom: 10px; }
+        .summary-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .summary-card p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.8; }
+
+        .conclusion-box {
+            background: var(--primary-bg); border: 2px solid var(--primary-light);
+            border-radius: var(--radius-lg); padding: 32px; text-align: center;
+            margin-top: 32px;
+        }
+        .conclusion-box h3 { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+        .conclusion-box p { color: var(--gray-600); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="summary.html">جمع‌بندی</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📋 جمع‌بندی نهایی پروژه</h1>
+            <p>خلاصه‌ای از تمام تحلیل‌های کسب‌وکار رندرنت در یک نگاه</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-card__icon">💡</div>
+                    <h3>شرح ایده و مسئله</h3>
+                    <p>
+                        رندرنت پلتفرمی برای اجاره قدرت پردازش توزیع‌شده است. از یک سو دانشجویان و فریلنسرها 
+                        نیازمند پردازش‌های سنگین هستند اما توان خرید سخت‌افزار را ندارند. از سوی دیگر 
+                        گیمرها و صاحبان سیستم‌های قوی، ساعات زیادی سیستم بیکار دارند.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">🧪</div>
+                    <h3>تحلیل بلوغ ایده</h3>
+                    <p>
+                        ایده از نوع ترکیبی (رایانش ابری + اقتصاد اشتراکی) و تطبیقی (بومی‌سازی برای ایران) است. 
+                        بازار واقعاً منتظر چنین راه‌حلی است و مقیاس‌پذیری بی‌نهایت دارد. 
+                        امکان ارزیابی میدانی با MVP ساده وجود دارد.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">💎</div>
+                    <h3>تحلیل ارزش‌آفرینی</h3>
+                    <p>
+                        ارزش بکارگیری: پردازش سریع و ارزان. ارزش مبادله‌ای: تبدیل قدرت بیکار به پول. 
+                        ارزش استراتژیک: ایجاد ابررایانه ملی. ارزش برای عرضه‌کننده: درآمد غیرفعال. 
+                        ارزش برای مشتری: حذف هزینه سرمایه‌ای.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">🧩</div>
+                    <h3>بوم کسب‌وکار</h3>
+                    <p>
+                        دو گروه مشتری (متقاضی و عرضه‌کننده). ارزش پیشنهادی: کاهش زمان و هزینه. 
+                        جریان درآمدی: کارمزد ۱۵٪، اشتراک ماهانه، سرویس ویژه. 
+                        منابع کلیدی: پلتفرم نرم‌افزاری و شبکه کاربران.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">📊</div>
+                    <h3>تحلیل مشتری و بازار</h3>
+                    <p>
+                        بازار هدف: حداقل ۵۰۰ هزار کاربر بالقوه در ایران. 
+                        دو پرسونای اصلی: سارا محمدی (دانشجوی معماری، ۲۳ ساله) و 
+                        محمد قاسمی (گیمر و کارمند، ۲۸ ساله). موانع اصلی: اعتماد و کیفیت اینترنت.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">🔍</div>
+                    <h3>تحلیل رقبا</h3>
+                    <p>
+                        رقبای مستقیم: رندرفارم‌های داخلی محدود با ظرفیت کم. 
+                        رقبای غیرمستقیم: AWS و Google Cloud (تحریم)، کافی‌نت‌ها. 
+                        مزیت اصلی: بومی، بدون تحریم، قیمت پایین‌تر، اثر شبکه‌ای.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">📣</div>
+                    <h3>طرح بازاریابی</h3>
+                    <p>
+                        کانال‌ها: انجمن‌های تخصصی، دانشگاه‌ها، شبکه‌های اجتماعی. 
+                        قیف بازاریابی ۶ مرحله‌ای از آگاهی تا ارجاع. 
+                        برنامه ارجاعی با تخفیف ۲۰٪. هدف: ۱۰۰۰ کاربر در ۳ ماه اول.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">💵</div>
+                    <h3>مدل درآمدی</h3>
+                    <p>
+                        مدل اصلی: کارمزد ۱۵٪ از تراکنش‌ها. 
+                        قیمت پایه: ۵۰ هزار تومان/ساعت. 
+                        نقطه سربه‌سر: ۱۹۶۰ تراکنش در ماه (ماه چهارم). 
+                        درآمد پیش‌بینی ماه سوم: ۳۶ میلیون تومان.
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">🔄</div>
+                    <h3>تحلیل واسطه‌گری</h3>
+                    <p>
+                        رندرنت ۱۰۰٪ واسطه است بین متقاضیان و عرضه‌کنندگان. 
+                        کاهش ارتباطات تجاری، افزایش مقیاس، کاهش ریسک (رمزنگاری، قفل وجه). 
+                        حذف واسطه‌های سنتی (فروشندگان سخت‌افزار، صرافی‌ها).
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card__icon">🗺️</div>
+                    <h3>نقشه راه توسعه</h3>
+                    <p>
+                        MVP فعلی: وب‌سایت + محاسبه‌گر قیمت. 
+                        برنامه ۳ ماهه: ثبت‌نام، آپلود، درگاه پرداخت. 
+                        برنامه ۶ ماهه: رمزنگاری کامل، ۵۰۰ کاربر فعال، نسخه PWA.
+                    </p>
+                </div>
+            </div>
+
+            <div class="conclusion-box">
+                <h3>✨ نتیجه‌گیری نهایی</h3>
+                <p>
+                    رندرنت یک ایده ترکیبی و بومی‌شده است که دقیقاً متناسب با نیازهای واقعی بازار ایران طراحی شده. 
+                    ترکیب اقتصاد اشتراکی و رایانش ابری، همراه با مزیت‌های رقابتی مانند قیمت پایین، 
+                    رمزنگاری سرتاسری و نبود تحریم، این پلتفرم را به گزینه‌ای جذاب برای دانشجویان، 
+                    فریلنسرها و صاحبان سیستم‌های بیکار تبدیل می‌کند. 
+                    تحلیل‌های مالی نشان می‌دهد با جذب ۱۰۰۰ کاربر فعال، پلتفرم در ماه چهارم به سربه‌سر 
+                    می‌رسد و مسیر رشد پایداری پیش رو دارد.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

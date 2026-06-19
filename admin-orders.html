@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت سفارشات | پنل ادمین</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; color: #1f2937; margin: 0; padding: 30px; }
+        .container { max-width: 1100px; margin: auto; background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        h2 { color: #f59e0b; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #e5e7eb; padding: 12px; text-align: center; font-size: 0.9rem; }
+        th { background: #fef3c7; color: #92400e; }
+        tr:hover { background: #f9fafb; }
+        .btn-action { padding: 5px 12px; border-radius: 15px; border: none; font-family: 'Vazir', Tahoma, sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin: 0 2px; transition: 0.2s; white-space: nowrap; }
+        .btn-accept { background: #00a878; color: white; }
+        .btn-reject { background: #ef4444; color: white; }
+        .btn-complete { background: #3b82f6; color: white; }
+        .back-link, .history-link { display: inline-block; margin-top: 20px; color: #5b3cc4; text-decoration: none; font-weight: 600; }
+        .history-link { margin-right: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📦 مدیریت سفارشات جاری</h2>
+        <table id="ordersTable">
+            <thead>
+                <tr><th>شماره</th><th>مشتری</th><th>نوع</th><th>GPU</th><th>حجم</th><th>ساعت</th><th>هزینه</th><th>تاریخ</th><th>وضعیت</th><th>عملیات</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <a href="admin-panel.html" class="back-link">← بازگشت به داشبورد</a>
+        <a href="admin-history.html" class="history-link">📋 تاریخچه سفارشات</a>
+    </div>
+    <script>
+        function loadAllOrders() {
+            const allOrders = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('orders_')) {
+                    const phone = key.replace('orders_', '');
+                    const orders = JSON.parse(localStorage.getItem(key) || '[]');
+                    orders.forEach(order => { order.phone = phone; allOrders.push(order); });
+                }
+            }
+            const tbody = document.querySelector('#ordersTable tbody');
+            tbody.innerHTML = '';
+            if (allOrders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10">هیچ سفارش جاری وجود ندارد.</td></tr>';
+                return;
+            }
+            allOrders.forEach((order) => {
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = users.find(u => u.phone === order.phone);
+                const customerName = user ? user.name : 'ناشناس';
+
+                let actionsHtml = '';
+                if (order.status === 'در انتظار پردازش') {
+                    actionsHtml = `
+                        <button class="btn-action btn-accept" onclick="approveOrder('${order.phone}', ${order.id})">✅ تأیید</button>
+                        <button class="btn-action btn-reject" onclick="rejectOrder('${order.phone}', ${order.id})">❌ رد</button>
+                    `;
+                } else if (order.status === 'تأیید شده') {
+                    actionsHtml = `
+                        <button class="btn-action btn-complete" onclick="completeOrder('${order.phone}', ${order.id})">🏁 تکمیل</button>
+                        <button class="btn-action btn-reject" onclick="rejectOrder('${order.phone}', ${order.id})">❌ رد</button>
+                    `;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${customerName}</td>
+                    <td>${order.type}</td>
+                    <td>${order.gpu || '-'}</td>
+                    <td>${order.volume}</td>
+                    <td>${order.hours || '-'}</td>
+                    <td>${order.cost.toLocaleString()}</td>
+                    <td>${order.date}</td>
+                    <td>${order.status}</td>
+                    <td>${actionsHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function approveOrder(phone, orderId) {
+            const key = 'orders_' + phone;
+            let orders = JSON.parse(localStorage.getItem(key) || '[]');
+            const index = orders.findIndex(o => o.id == orderId);
+            if (index === -1) return;
+            orders[index].status = 'تأیید شده';
+            localStorage.setItem(key, JSON.stringify(orders));
+            loadAllOrders();
+        }
+
+        function completeOrder(phone, orderId) {
+            const key = 'orders_' + phone;
+            let orders = JSON.parse(localStorage.getItem(key) || '[]');
+            const index = orders.findIndex(o => o.id == orderId);
+            if (index === -1) return;
+            const completedOrder = orders[index];
+            // انتقال به تاریخچه
+            let deletedOrders = JSON.parse(localStorage.getItem('deleted_orders') || '[]');
+            deletedOrders.push({ ...completedOrder, phone: phone, status: 'تکمیل شده' });
+            localStorage.setItem('deleted_orders', JSON.stringify(deletedOrders));
+            // حذف از لیست جاری
+            orders.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(orders));
+            loadAllOrders();
+        }
+
+        function rejectOrder(phone, orderId) {
+            const key = 'orders_' + phone;
+            let orders = JSON.parse(localStorage.getItem(key) || '[]');
+            const index = orders.findIndex(o => o.id == orderId);
+            if (index === -1) return;
+            const rejectedOrder = orders[index];
+
+            // بازگرداندن مبلغ به مشتری
+            const creditKey = 'credit_' + phone;
+            let currentCredit = parseInt(localStorage.getItem(creditKey) || '0');
+            localStorage.setItem(creditKey, (currentCredit + rejectedOrder.cost).toString());
+
+            // انتقال به تاریخچه
+            let deletedOrders = JSON.parse(localStorage.getItem('deleted_orders') || '[]');
+            deletedOrders.push({ ...rejectedOrder, phone: phone, status: 'رد شده' });
+            localStorage.setItem('deleted_orders', JSON.stringify(deletedOrders));
+
+            // حذف از لیست جاری
+            orders.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(orders));
+
+            loadAllOrders();
+        }
+
+        loadAllOrders();
+    </script>
+</body>
+</html>

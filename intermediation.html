@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | تحلیل واسطه‌گری و زنجیره ارزش</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Content */
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card p { color: var(--gray-600); margin-bottom: 10px; }
+        .card strong { color: var(--gray-800); }
+
+        /* Two column for intermediaries */
+        .two-col {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            margin: 20px 0;
+        }
+        .list-item {
+            background: var(--gray-50); border-radius: var(--radius);
+            padding: 16px; margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="intermediation.html">واسطه‌گری</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🔄 تحلیل واسطه‌گری و زنجیره ارزش</h1>
+            <p>رندرنت چگونه نقش واسطه را ایفا می‌کند و چه ارزش‌هایی در این میان خلق می‌شود</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- ذات واسطه‌گری -->
+            <div class="card">
+                <h2 class="section-title">🔁 آیا ایده ذاتاً واسطه‌گر است؟</h2>
+                <p>
+                    <strong>بله، کاملاً.</strong> رندرنت یک واسطه دیجیتال ۱۰۰٪ است. 
+                    پلتفرم مالک هیچ سخت‌افزاری نیست و خودش قدرت پردازشی تولید نمی‌کند. 
+                    صرفاً بستر نرم‌افزاری، الگوریتم‌های تطبیق و زیرساخت امنیتی را فراهم می‌کند 
+                    تا عرضه‌کنندگان قدرت پردازش (گیمرها، کافی‌نت‌ها) و متقاضیان پردازش 
+                    (دانشجویان، فریلنسرها، توسعه‌دهندگان AI) بتوانند با یکدیگر تبادل خدمت کنند.
+                </p>
+            </div>
+
+            <!-- گروه‌های واسطه‌گری -->
+            <div class="card">
+                <h2 class="section-title">👥 بین چه گروه‌هایی واسطه‌گری می‌کند؟</h2>
+                <div class="two-col">
+                    <div class="list-item">
+                        <strong>🟣 متقاضیان پردازش</strong><br>
+                        دانشجویان معماری، انیمیشن‌سازان، متخصصان علم داده، 
+                        توسعه‌دهندگان هوش مصنوعی، استارتاپ‌های فناور.
+                    </div>
+                    <div class="list-item">
+                        <strong>🟢 عرضه‌کنندگان قدرت پردازش</strong><br>
+                        گیمرهای حرفه‌ای، کافی‌نت‌ها، گیم‌نت‌های مدرن، 
+                        استودیوهای طراحی، کاربران خانگی با سیستم‌های رده‌بالا.
+                    </div>
+                </div>
+            </div>
+
+            <!-- کاهش ارتباطات -->
+            <div class="card">
+                <h2 class="section-title">📉 کسب‌وکار چه ارتباطاتی را کاهش می‌دهد؟</h2>
+                <p>
+                    رندرنت <strong>تعداد ارتباطات تجاری</strong> را به شدت کاهش می‌دهد. 
+                    یک فریلنسر برای پیدا کردن یک سیستم بیکار با توان گرافیکی بالا مجبور نیست 
+                    در سطح شهر بگردد یا با ده‌ها نفر هماهنگ کند. پلتفرم به‌عنوان یک 
+                    <strong>نقطه تماس واحد (Single Point of Contact)</strong> عمل می‌کند: 
+                    هزاران متقاضی را تنها از طریق یک وب‌سایت به هزاران عرضه‌کننده متصل می‌کند.
+                    در نتیجه هزینه جست‌وجو، هماهنگی و مذاکره به شدت افت می‌کند.
+                </p>
+            </div>
+
+            <!-- مقیاس‌پذیری -->
+            <div class="card">
+                <h2 class="section-title">📈 آیا مقیاس‌پذیری ایجاد می‌کند؟</h2>
+                <p>
+                    <strong>بله، مقیاس‌پذیری هسته اصلی این واسطه‌گری است.</strong> 
+                    با اتصال صدها یا هزاران سیستم به یکدیگر، پلتفرم عملاً یک ابررایانه 
+                    توزیع‌شده می‌سازد که مقیاس پردازشی آن از هر شرکت داخلی بیشتر است. 
+                    هزینه تمام‌شده هر واحد پردازش به دلیل توزیع بار کاهش می‌یابد 
+                    و کاربران از <strong>صرفه‌جویی ناشی از مقیاس</strong> بهره‌مند می‌شوند.
+                </p>
+            </div>
+
+            <!-- تخصص و تجربه -->
+            <div class="card">
+                <h2 class="section-title">🎓 آیا تخصص و تجربه در اختیار مشتری قرار می‌دهد؟</h2>
+                <p>
+                    پلتفرم در ابتدا تخصص فنی عمیقی ارائه نمی‌کند، اما می‌تواند 
+                    <strong>راهنماهای هوشمند</strong> برای انتخاب بهترین تنظیمات رندر 
+                    یا نوع GPU مناسب برای آموزش مدل‌های AI فراهم کند. 
+                    از طرفی خود عرضه‌کنندگان قدرتمند (استودیوها) می‌توانند 
+                    <strong>خدمات مشاوره‌ای</strong> از طریق پلتفرم بفروشند 
+                    که این یک جریان درآمدی جدید برای آن‌ها و ارزش افزوده برای مشتریان است.
+                </p>
+            </div>
+
+            <!-- کاهش ریسک -->
+            <div class="card">
+                <h2 class="section-title">🛡️ آیا ریسک مشتری یا عرضه‌کننده را کاهش می‌دهد؟</h2>
+                <p>
+                    <strong>بله، این مهم‌ترین کارکرد واسطه است.</strong>
+                    <br>• <strong>کاهش ریسک برای متقاضی:</strong> فایل‌ها قبل از ارسال رمزنگاری می‌شوند، 
+                    عرضه‌کننده نمی‌تواند محتوا را ببیند یا سرقت کند.
+                    <br>• <strong>کاهش ریسک برای عرضه‌کننده:</strong> پلتفرم هزینه را در کیف پول قفل می‌کند 
+                    و پس از تأیید انجام کار، آزاد می‌شود. همچنین اسکن امنیتی فایل‌ها 
+                    خطر بدافزار را کاهش می‌دهد.
+                    <br>• <strong>بیمه پردازش:</strong> در صورت خرابی سخت‌افزار حین کار، 
+                    پروژه روی سیستم دیگری از سر گرفته می‌شود.
+                </p>
+            </div>
+
+            <!-- واسطه‌های حذف‌شده و جدید -->
+            <div class="card">
+                <h2 class="section-title">🔄 واسطه‌های حذف‌شده و واسطه‌های جدید</h2>
+                <div class="two-col">
+                    <div>
+                        <h3 style="color: #d32f2f; margin-bottom: 12px;">❌ واسطه‌هایی که حذف می‌شوند</h3>
+                        <ul style="list-style: disc; padding-right: 20px; color: var(--gray-600);">
+                            <li>فروشندگان سخت‌افزار (نیاز به خرید GPU کم می‌شود)</li>
+                            <li>کافی‌نت‌های فیزیکی (با مدل آنلاین جایگزین می‌شوند)</li>
+                            <li>صرافی‌های ارز دیجیتال (برای خرید گیفت‌کارت سرویس‌های خارجی)</li>
+                            <li>شرکت‌های واسط پرداخت ارزی</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent); margin-bottom: 12px;">✅ واسطه‌های جدیدی که ایجاد می‌شوند</h3>
+                        <ul style="list-style: disc; padding-right: 20px; color: var(--gray-600);">
+                            <li>شرکت‌های بیمه دیجیتال (بیمه پروژه‌های پردازشی)</li>
+                            <li>ارائه‌دهندگان پهنای باند اختصاصی برای کاربران پلتفرم</li>
+                            <li>تأمین‌کنندگان امنیت سایبری (تضمین رمزنگاری)</li>
+                            <li>تیم‌های پشتیبانی تخصصی نرم‌افزارهای رندر و AI</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

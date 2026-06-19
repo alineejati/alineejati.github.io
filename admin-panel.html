@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل ادمین | رندرنت</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; color: #1f2937; margin: 0; display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: white; border-left: 1px solid #e5e7eb; padding: 25px 20px; display: flex; flex-direction: column; gap: 18px; font-size: 0.95rem; box-shadow: 2px 0 10px rgba(0,0,0,0.03); }
+        .sidebar a { color: #4b5563; text-decoration: none; padding: 10px 14px; border-radius: 10px; transition: 0.2s; display: block; }
+        .sidebar a:hover { background: #fef3c7; color: #f59e0b; }
+        .main { flex: 1; padding: 30px 35px; }
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
+        .header-panel h1 { font-size: 1.6rem; color: #f59e0b; }
+        .badge { background: #fef3c7; color: #b45309; padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 35px; }
+        .stat-card { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: 0.2s; }
+        .stat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); border-color: #f59e0b; }
+        .stat-card h3 { font-size: 1.8rem; color: #f59e0b; font-weight: 800; margin-bottom: 6px; }
+        .stat-card p { color: #6b7280; font-size: 0.9rem; }
+        @media (max-width: 768px) { .sidebar { display: none; } .dashboard-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3 style="color: #f59e0b; margin-bottom: 15px;">⚙️ ادمین</h3>
+        <a href="admin-panel.html">📊 نمای کلی</a>
+        <a href="admin-orders.html">📦 سفارشات جاری</a>
+        <a href="admin-history.html">📋 تاریخچه سفارشات</a>
+        <a href="admin-customers.html">👥 مشتریان</a>
+        <a href="index.html">🚪 خروج</a>
+    </div>
+    <div class="main">
+        <div class="header-panel">
+            <h1>پنل مدیریت</h1>
+            <span class="badge">نسخه دمو MVP</span>
+        </div>
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3 id="totalSales">۰ تومان</h3>
+                <p>کل فروش (تکمیل‌شده)</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeCustomers">۰</h3>
+                <p>مشتری فعال</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalOrders">۰</h3>
+                <p>کل سفارشات ثبت‌شده</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pendingOrders">۰</h3>
+                <p>در انتظار تأیید (جاری)</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedCount">۰</h3>
+                <p>سفارشات تکمیل شده</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="cancelledCount">۰</h3>
+                <p>سفارشات لغو شده</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // سفارشات جاری (orders_)
+        const currentOrders = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('orders_')) {
+                const orders = JSON.parse(localStorage.getItem(key) || '[]');
+                currentOrders.push(...orders);
+            }
+        }
+
+        // تاریخچه (deleted_orders)
+        const deletedOrders = JSON.parse(localStorage.getItem('deleted_orders') || '[]');
+
+        // ۱. کل فروش (فقط تکمیل‌شده‌ها)
+        const completedOrders = deletedOrders.filter(o => o.status === 'تکمیل شده');
+        const totalSales = completedOrders.reduce((sum, o) => sum + (o.cost || 0), 0);
+        document.getElementById('totalSales').textContent = totalSales.toLocaleString() + ' تومان';
+
+        // ۲. کل سفارشات (جاری + تاریخچه)
+        const allOrders = currentOrders.concat(deletedOrders);
+        document.getElementById('totalOrders').textContent = allOrders.length;
+
+        // ۳. در انتظار تأیید (از میان جاری‌ها)
+        const pending = currentOrders.filter(o => o.status === 'در انتظار پردازش').length;
+        document.getElementById('pendingOrders').textContent = pending;
+
+        // ۴. سفارشات تکمیل شده
+        document.getElementById('completedCount').textContent = completedOrders.length;
+
+        // ۵. سفارشات لغو شده (رد شده)
+        const cancelledOrders = deletedOrders.filter(o => o.status === 'رد شده');
+        document.getElementById('cancelledCount').textContent = cancelledOrders.length;
+
+        // ۶. مشتریان فعال
+        const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        document.getElementById('activeCustomers').textContent = users.length;
+    </script>
+</body>
+</html>

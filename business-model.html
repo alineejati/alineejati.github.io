@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | بوم کسب‌وکار</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--white); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Canvas Grid */
+        .canvas-section { padding: 50px 0 70px; }
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .canvas-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .canvas-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        .canvas-card__title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+        .canvas-card__title .emoji { font-size: 1.3rem; }
+        .canvas-card__content {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.9;
+            flex-grow: 1;
+        }
+        .canvas-card__content strong {
+            color: var(--gray-800);
+        }
+        .canvas-card--center {
+            background: var(--primary-bg);
+            border-color: var(--primary-light);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+            background: var(--white);
+        }
+
+        @media (max-width: 900px) {
+            .canvas-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .canvas-grid { grid-template-columns: 1fr; }
+            .nav__links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="business-model.html">بوم</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🧩 بوم کسب‌وکار رندرنت</h1>
+            <p>Business Model Canvas — نمای یکپارچه از ارکان اصلی پلتفرم</p>
+        </div>
+    </section>
+
+    <section class="canvas-section">
+        <div class="container">
+            <div class="canvas-grid">
+
+                <!-- ۱. بخش‌های مشتریان -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">👥</span> بخش‌های مشتریان</div>
+                    <div class="canvas-card__content">
+                        <strong>متقاضیان پردازش:</strong> دانشجویان معماری، انیمیشن‌سازان فریلنسر، توسعه‌دهندگان هوش مصنوعی و استارتاپ‌های کم‌بودجه.<br>
+                        <strong>عرضه‌کنندگان قدرت پردازش:</strong> گیمرها، کافی‌نت‌های مدرن، استودیوهای طراحی و کاربران خانگی دارای سخت‌افزار قوی.
+                    </div>
+                </div>
+
+                <!-- ۲. ارزش پیشنهادی -->
+                <div class="canvas-card canvas-card--center">
+                    <div class="canvas-card__title"><span class="emoji">💎</span> ارزش پیشنهادی</div>
+                    <div class="canvas-card__content">
+                        <strong>برای متقاضیان:</strong> دسترسی آنی و ارزان به ابررایانهٔ توزیع‌شده، کاهش زمان رندر از ۲۰ ساعت به ۲ ساعت، بدون نیاز به خرید سخت‌افزار.<br>
+                        <strong>برای عرضه‌کنندگان:</strong> کسب درآمد غیرفعال از سیستم بیکار، بدون استهلاک اضافه و با تضمین امنیت.
+                    </div>
+                </div>
+
+                <!-- ۳. کانال‌های ارتباطی و توزیع -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">📡</span> کانال‌های ارتباطی و توزیع</div>
+                    <div class="canvas-card__content">
+                        <strong>وب‌سایت اختصاصی:</strong> کانال اصلی ارائه خدمات و محاسبه قیمت.<br>
+                        <strong>شبکه‌های اجتماعی:</strong> اینستاگرام و تلگرام (تولید محتوای آموزشی و معرفی پروژه‌های موفق).<br>
+                        <strong>انجمن‌های تخصصی:</strong> همکاری با فروم‌های معماری، طراحی سه‌بعدی و هوش مصنوعی.<br>
+                        <strong>بازاریابی ارجاعی:</strong> کد تخفیف برای معرفی کاربر جدید.
+                    </div>
+                </div>
+
+                <!-- ۴. ارتباط با مشتری -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">🤝</span> ارتباط با مشتری</div>
+                    <div class="canvas-card__content">
+                        <strong>پشتیبانی ۲۴/۷:</strong> چت آنلاین و پشتیبانی تلفنی.<br>
+                        <strong>داشبورد شخصی:</strong> امکان رصد آنلاین وضعیت پروژه.<br>
+                        <strong>گزارش عملکرد:</strong> ارائه گزارش زمان و هزینه صرفه‌جویی‌شده به کاربران.<br>
+                        <strong>بازخورد مستمر:</strong> نظرسنجی پس از هر پروژه برای بهبود کیفیت.
+                    </div>
+                </div>
+
+                <!-- ۵. جریان‌های درآمدی -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">💰</span> جریان‌های درآمدی</div>
+                    <div class="canvas-card__content">
+                        <strong>کارمزد تراکنش:</strong> ۱۵٪ از مبلغ پرداختی متقاضی (مدل پرداخت به ازای مصرف).<br>
+                        <strong>طرح‌های اشتراکی:</strong> بسته‌های ماهانه برای کاربران حرفه‌ای با تخفیف حجمی.<br>
+                        <strong>سرویس‌های ویژه:</strong> اولویت‌دهی در صف پردازش یا پهنای باند بالاتر با هزینه اضافه.<br>
+                        <strong>تبلیغات هدفمند:</strong> نمایش محصولات مرتبط (قطعات کامپیوتری، نرم‌افزار) در پلتفرم.
+                    </div>
+                </div>
+
+                <!-- ۶. منابع کلیدی -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">🔑</span> منابع کلیدی</div>
+                    <div class="canvas-card__content">
+                        <strong>پلتفرم نرم‌افزاری:</strong> هستهٔ مرکزی برای توزیع، رمزنگاری و زمان‌بندی پردازش‌ها.<br>
+                        <strong>شبکهٔ کاربران:</strong> جرم بحرانی عرضه‌کنندگان و متقاضیان (اثر شبکه‌ای).<br>
+                        <strong>تیم توسعه:</strong> مهندسان نرم‌افزار، متخصصان امنیت و هوش مصنوعی.<br>
+                        <strong>زیرساخت امنیتی:</strong> سیستم رمزنگاری سرتاسری و احراز هویت.
+                    </div>
+                </div>
+
+                <!-- ۷. فعالیت‌های کلیدی -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">⚡</span> فعالیت‌های کلیدی</div>
+                    <div class="canvas-card__content">
+                        <strong>توسعه و نگهداری پلتفرم:</strong> بهبود مداوم الگوریتم‌های توزیع بار و رمزنگاری.<br>
+                        <strong>بازاریابی دیجیتال:</strong> جذب کاربران جدید از هر دو سمت عرضه و تقاضا.<br>
+                        <strong>اعتمادسازی:</strong> اجرای پروژه‌های آزمایشی رایگان برای کاربران تازه‌وارد.<br>
+                        <strong>پشتیبانی فنی:</strong> کمک به کاربران در آپلود فایل‌ها و تنظیمات نرم‌افزاری.
+                    </div>
+                </div>
+
+                <!-- ۸. شرکای کلیدی -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">🤲</span> شرکای کلیدی</div>
+                    <div class="canvas-card__content">
+                        <strong>درگاه‌های پرداخت داخلی:</strong> زرین‌پال، آیدی پی — برای تسویه ریالی.<br>
+                        <strong>ارائه‌دهندگان اینترنت (ISP):</strong> همراه اول، ایرانسل — تأمین پهنای باند.<br>
+                        <strong>دانشگاه‌ها:</strong> همکاری برای معرفی به دانشجویان و استفاده از لابراتوارها.<br>
+                        <strong>گیم‌نت‌ها و کافی‌نت‌ها:</strong> تأمین‌کنندگان عمدهٔ قدرت پردازش در ساعات غیرپیک.
+                    </div>
+                </div>
+
+                <!-- ۹. ساختار هزینه -->
+                <div class="canvas-card">
+                    <div class="canvas-card__title"><span class="emoji">📉</span> ساختار هزینه</div>
+                    <div class="canvas-card__content">
+                        <strong>توسعه و زیرساخت فنی:</strong> حقوق تیم برنامه‌نویسی، هزینه سرورهای مرکزی.<br>
+                        <strong>بازاریابی:</strong> تبلیغات دیجیتال، تولید محتوا، برنامه‌های ارجاعی.<br>
+                        <strong>پشتیبانی:</strong> تیم پشتیبانی ۲۴/۷.<br>
+                        <strong>هزینه‌های قانونی:</strong> مشاوره حقوقی برای قراردادها، حریم خصوصی و امنیت داده‌ها.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

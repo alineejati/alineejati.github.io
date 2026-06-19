@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تاریخچه سفارشات | پنل ادمین</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; color: #1f2937; margin: 0; padding: 30px; }
+        .container { max-width: 1000px; margin: auto; background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        h2 { color: #f59e0b; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #e5e7eb; padding: 12px; text-align: center; font-size: 0.9rem; }
+        th { background: #fef3c7; color: #92400e; }
+        tr:hover { background: #f9fafb; }
+        .back-link { display: inline-block; margin-top: 20px; color: #5b3cc4; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📋 تاریخچه سفارشات (تکمیل‌شده / رد شده)</h2>
+        <table id="historyTable">
+            <thead>
+                <tr><th>شماره</th><th>مشتری</th><th>نوع</th><th>GPU</th><th>هزینه</th><th>تاریخ</th><th>وضعیت</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <a href="admin-panel.html" class="back-link">← بازگشت به داشبورد</a>
+    </div>
+    <script>
+        const deletedOrders = JSON.parse(localStorage.getItem('deleted_orders') || '[]');
+        const tbody = document.querySelector('#historyTable tbody');
+        if (deletedOrders.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">هیچ سفارشی در تاریخچه وجود ندارد.</td></tr>';
+        } else {
+            deletedOrders.forEach(order => {
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = users.find(u => u.phone === order.phone);
+                const customerName = user ? user.name : 'ناشناس';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${customerName}</td>
+                    <td>${order.type}</td>
+                    <td>${order.gpu || '-'}</td>
+                    <td>${order.cost.toLocaleString()}</td>
+                    <td>${order.date}</td>
+                    <td>${order.status}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

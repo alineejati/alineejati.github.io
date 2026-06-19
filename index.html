@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | اجاره قدرت پردازش ابری</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== Header ========== */
+        header {
+            border-bottom: 1px solid var(--gray-200);
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--gray-900);
+            font-weight: 700;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a {
+            color: var(--gray-600);
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .btn-demo {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+        }
+        .btn-demo:hover {
+            /* background: var(--primary); */
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(91,60,196,0.25);
+        }
+        .btn-demo.admin {
+            border-color: #f59e0b;
+            color: #f59e0b;
+        }
+        .btn-demo.admin:hover {
+            background: #f59e0b;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(91,60,196,0.25);
+        }
+        .btn-login {
+            background: var(--gray-50);
+            color: #fff;
+            padding: 9px 22px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+        .btn-login:hover {
+            /* background: var(--accent); */
+            box-shadow: 0 6px 20px rgba(91,60,196,0.25);
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            padding: 140px 0 80px;
+            display: flex;
+            align-items: center;
+            min-height: 85vh;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            margin-bottom: 20px;
+            border-right: 3px solid var(--primary);
+            padding-right: 15px;
+        }
+        .hero-desc {
+            margin: 20px 0;
+            line-height: 1.7;
+        }
+        .hero-desc .problem {
+            background: rgba(239, 68, 68, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            border-right: 3px solid #ef4444;
+            margin-bottom: 15px;
+        }
+        .hero-desc .solution {
+            background: rgba(91, 60, 196, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            border-right: 3px solid var(--primary);
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        .btn-primary:hover {
+            background: var(--primary-light);
+            box-shadow: 0 8px 24px rgba(91,60,196,0.3);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* ========== Hero Visual ========== */
+        .hero__visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero__illustration {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero__illustration-inner {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--white);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .hero__dot {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 3s ease-in-out infinite;
+        }
+        .hero__dot:nth-child(2) {
+            width: 16px;
+            height: 16px;
+            top: 18%;
+            right: 10%;
+            animation-delay: 0.5s;
+            background: var(--primary-light);
+        }
+        .hero__dot:nth-child(3) {
+            width: 20px;
+            height: 20px;
+            bottom: 22%;
+            left: 8%;
+            animation-delay: 1s;
+            background: var(--primary);
+        }
+        .hero__dot:nth-child(4) {
+            width: 12px;
+            height: 12px;
+            top: 60%;
+            right: 5%;
+            animation-delay: 1.5s;
+            background: var(--accent);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        /* ========== Features ========== */
+        .why-section {
+            padding: 60px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-400);
+            margin-bottom: 48px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .feature-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* ========== Trust ========== */
+        .trust-section {
+            padding: 40px 0 60px;
+            border-top: 1px solid var(--gray-200);
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .stat-item h3 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+        .stat-item p {
+            color: var(--gray-600);
+        }
+        .testimonials {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .testimonial-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 25px;
+            flex: 1;
+            min-width: 260px;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--gray-800);
+        }
+        .testimonial-card h4 {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== Footer CTA ========== */
+        .footer-cta {
+            padding: 70px 0;
+            text-align: center;
+            background: var(--primary-bg);
+            border-radius: var(--radius-lg);
+            margin: 40px 20px;
+        }
+        .footer-cta h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+        .footer-cta p {
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+
+        /* ========== Site Footer (Navigation) ========== */
+        .site-footer {
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            padding: 50px 0 20px;
+            margin-top: 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-col h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        .footer-col ul li a {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--primary);
+        }
+        .copyright {
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .header-flex {
+                flex-direction: column;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero__visual {
+                display: none;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-flex">
+        <div class="logo">
+            <span class="logo-dot"></span>
+            <h1>رندرنت</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">خانه</a>
+            <a href="idea.html">ایده</a>
+            <a href="demo.html">دمو</a>
+            <a href="business-model.html">بوم‌کسب‌وکار</a>
+            <a href="customer-login.html" class="btn-demo">👤 دموی پنل مشتری</a>
+            <a href="admin-login.html" class="btn-demo admin">⚙️ دموی پنل ادمین</a>
+            <a href="customer-login.html" class="btn-login">ورود / ثبت‌نام</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>قدرت پردازش <span>اجاره‌ای</span><br>بدون هزینه سخت‌افزار</h1>
+                <div class="hero-sub">دموی پنل پردازش ابری | رندر فوری، آموزش هوش مصنوعی</div>
+                <div class="hero-desc">
+                    <div class="problem">
+                        <strong>مشکل:</strong> دانشجویان معماری، انیمیشن‌سازان و متخصصان هوش مصنوعی به سیستم‌های ده‌ها میلیونی نیاز دارند. تحریم‌ها دسترسی به ابرهای خارجی را قطع کرده است.
+                    </div>
+                    <div class="solution">
+                        <strong>راه‌حل رندرنت:</strong> پلتفرم همتا‌به‌همتا متصل‌کننده توان بیکار گیمرها و کافی‌نت‌ها به متقاضیان رندر و AI. پرداخت به‌ازای مصرف، امنیت رمزنگاری.
+                    </div>
+                </div>
+                <div class="cta-buttons">
+                    <a href="demo.html" class="btn-primary">مشاهده دموی رایگان</a>
+                    <a href="idea.html" class="btn-secondary">بررسی ایده</a>
+                </div>
+            </div>
+            <div class="hero__visual">
+                <div class="hero__illustration">
+                    <div class="hero__dot"></div>
+                    <div class="hero__dot"></div>
+                    <div class="hero__dot"></div>
+                    <div class="hero__dot"></div>
+                    <div class="hero__illustration-inner">🖥️</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-section">
+        <div class="container">
+            <h2 class="section-title">چرا رندرنت؟</h2>
+            <p class="section-subtitle">ارزشی که برای هر دو طرف بازار خلق می‌کنیم</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>سرعت و مقیاس بالا</h3>
+                    <p>اتصال به صدها GPU قدرتمند، کاهش زمان رندر از چند روز به چند ساعت.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>پرداخت به‌ازای مصرف</h3>
+                    <p>فقط به اندازه نیاز واقعی پرداخت کنید. بدون هزینه خرید سخت‌افزار.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>امنیت رمزنگاری</h3>
+                    <p>فایل‌ها قبل از ارسال رمزنگاری می‌شوند. حتی ارائه‌دهنده به محتوای شما دسترسی ندارد.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-section">
+        <div class="container">
+            <div class="stats">
+                <div class="stat-item"><h3>+۵۰۰</h3><p>گره پردازشی فعال</p></div>
+                <div class="stat-item"><h3>+۱۲۰۰</h3><p>پروژه موفق رندر و AI</p></div>
+                <div class="stat-item"><h3>٪۷۰</h3><p>کاهش هزینه نسبت به خرید سخت‌افزار</p></div>
+            </div>
+            <h2 class="section-title" style="font-size:1.8rem;">نظرات کاربران</h2>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <p>“رندر پروژه سنگینم با رندرنت ۲ ساعته تموم شد. قبلاً با لپ‌تاپ خودم ۳ روز طول می‌کشید.”</p>
+                    <h4>- سارا محمدی، دانشجوی معماری</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>“آموزش مدل هوش مصنوعی رو به‌جای هفته‌ها، در ۸ ساعت انجام دادم. فوق‌العاده‌ست.”</p>
+                    <h4>- رضا کریمی، توسعه‌دهنده AI</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>“سیستم گیمینگم بیکار بود، حالا ماهی ۳ میلیون درآمد دارم. هم من سود می‌کنم هم دیگران.”</p>
+                    <h4>- امیرحسین نوری، گیمر</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- فوتر ناوبری -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>📊 تحلیل‌ها</h3>
+                <ul>
+                    <li><a href="idea.html">ایده و جرقه</a></li>
+                    <li><a href="maturity.html">بلوغ ایده</a></li>
+                    <li><a href="value.html">ارزش‌آفرینی</a></li>
+                    <li><a href="business-model.html">بوم کسب‌وکار</a></li>
+                    <li><a href="market.html">بازار و مشتری</a></li>
+                    <li><a href="competition.html">رقبا</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>🚀 اجرا</h3>
+                <ul>
+                    <li><a href="marketing.html">طرح بازاریابی</a></li>
+                    <li><a href="revenue.html">مدل درآمدی</a></li>
+                    <li><a href="intermediation.html">واسطه‌گری</a></li>
+                    <li><a href="roadmap.html">نقشه راه</a></li>
+                    <li><a href="summary.html">جمع‌بندی</a></li>
+                    <li><a href="demo.html">محاسبه‌گر قیمت</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>👥 پنل‌ها</h3>
+                <ul>
+                    <li><a href="customer-login.html">پنل مشتری</a></li>
+                    <li><a href="admin-login.html">پنل ادمین</a></li>
+                    <li><a href="register.html">ثبت‌نام</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

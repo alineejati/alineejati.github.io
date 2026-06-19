@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سفارشات من | رندرنت</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; color: #1f2937; margin: 0; padding: 30px; }
+        .container { max-width: 800px; margin: auto; background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        h2 { color: #5b3cc4; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #e5e7eb; padding: 12px; text-align: center; font-size: 0.9rem; }
+        th { background: #f4f0ff; color: #5b3cc4; }
+        tr:hover { background: #f9fafb; }
+        .back-link { display: inline-block; margin-top: 20px; color: #5b3cc4; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📋 سفارشات من</h2>
+        <table id="ordersTable">
+            <thead>
+                <tr><th>شماره</th><th>نوع</th><th>GPU</th><th>حجم</th><th>ساعت</th><th>هزینه</th><th>تاریخ</th><th>وضعیت</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <a href="customer-panel.html" class="back-link">← بازگشت به داشبورد</a>
+    </div>
+    <script>
+        const phone = localStorage.getItem('currentUserPhone');
+        const ordersKey = 'orders_' + phone;
+        const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
+        const tbody = document.querySelector('#ordersTable tbody');
+        if (orders.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8">هیچ سفارشی وجود ندارد.</td></tr>';
+        } else {
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${order.id}</td><td>${order.type}</td><td>${order.gpu}</td><td>${order.volume}</td><td>${order.hours}</td><td>${order.cost.toLocaleString()} تومان</td><td>${order.date}</td><td>${order.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

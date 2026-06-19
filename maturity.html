@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | بلوغ ایده</title>
+    <style>
+        /* ===== Font Face (Vazir) ===== */
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Content */
+        .content-section { padding: 60px 0; }
+        .question-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 24px;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .question-card:hover { box-shadow: var(--shadow-md); }
+        .question-card__q {
+            font-size: 1.05rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+        }
+        .question-card__q span { font-size: 1.3rem; }
+        .question-card__a { color: var(--gray-600); font-size: 0.95rem; line-height: 2; }
+        .question-card__a strong { color: var(--gray-800); }
+        .inline-badge {
+            display: inline-block; background: var(--primary-bg);
+            color: var(--primary); font-weight: 700; padding: 2px 10px; border-radius: 16px;
+            font-size: 0.85rem; margin: 0 4px;
+        }
+        .inline-badge--green {
+            background: var(--accent-light); color: var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .page-hero h1 { font-size: 1.6rem; }
+            .question-card { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ ایده</a></li>
+                <li><a href="#">تحلیل</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🧪 بلوغ ایده — از جرقه تا ارزیابی همه‌جانبه</h1>
+            <p>پاسخ به ۱۰ پرسش حیاتی برای محک زدن ایده از زوایای مختلف</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- Q1 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>1️⃣</span> آیا واقعاً کسی در بازار منتظر چنین راه‌حلی است؟</p>
+                <div class="question-card__a">
+                    <strong>بله، به شدت.</strong> با توجه به قیمت نجومی قطعات کامپیوتری و نوسانات ارزی، خرید یک کارت گرافیک رده‌بالا برای یک دانشجوی معماری یا برنامه‌نویس هوش مصنوعی که می‌خواهد مدل زبانی یا پردازش تصویر آموزش دهد، به رویایی دست‌نیافتنی تبدیل شده است. از سوی دیگر، به دلیل تحریم‌ها و مشکلات پرداخت ارزی، استفاده از سرویس‌های ابری خارجی (مانند AWS یا Google Cloud) برای کاربران ایرانی بسیار دشوار و گران است. در سمت مقابل، گیمرها و صاحبان سیستم‌های قدرتمند نیز منتظر فرصتی هستند تا از سیستم گران‌قیمت خود در زمان‌های بیکاری درآمد غیرفعال کسب کنند.
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>2️⃣</span> این ایده فقط علاقه شخصی من است یا مسئله واقعی گروهی از مشتریان را حل می‌کند؟</p>
+                <div class="question-card__a">
+                    این ایده <strong>مستقیماً کسب‌وکار و زندگی حرفه‌ای عدهٔ زیادی را متحول می‌کند.</strong> برای یک فریلنسر، اینکه بتواند به جای ۲۰ ساعت انتظار برای رندر شدن یک ویدیو یا ۵ روز انتظار برای آموزش یک شبکهٔ عصبی در سیستم ضعیف خودش، آن را در عرض چند ساعت توسط یک سیستم ابری توزیع‌شده تحویل بگیرد، به معنای افزایش چشمگیر سرعت کار، امکان گرفتن پروژه‌های بیشتر و در نتیجه افزایش درآمد است. این پلتفرم هزینه‌های سرمایه‌ای کسب‌وکارهای کوچک را به هزینه‌های عملیاتی تبدیل می‌کند که یک نجات‌دهندهٔ واقعی برای استارتاپ‌ها و فریلنسرهاست.
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>3️⃣</span> ایده از نوع جدید، ترکیبی یا تطبیقی است؟</p>
+                <div class="question-card__a">
+                    این ایده در دستهٔ <strong>ایده‌های ترکیبی و تطبیقی</strong> قرار می‌گیرد.
+                    مفهوم رایانش ابری و رندرفارم‌ها مفاهیم جدیدی نیستند. اما ترکیب این مفهوم با مدل <span class="inline-badge">اقتصاد اشتراکی</span> (مانند کاری که Airbnb در اجارهٔ خانه انجام داد) یک ترکیب نوآورانه است.
+                    همچنین این ایده <strong>تطبیقی</strong> از پروژه‌های غیرمتمرکز جهانی است که برای بازار داخل کشور (با توجه به محدودیت‌های اینترنت و تحریم‌ها) بومی‌سازی شده است.
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>4️⃣</span> ایده تا چه مقیاسی می‌تواند رشد کند؟</p>
+                <div class="question-card__a">
+                    مقیاس‌پذیری این ایده <strong>بی‌نهایت است.</strong> برخلاف ایده‌های مبتنی بر کالای فیزیکی، در اینجا هیچ کالایی جابجا نمی‌شود. همه چیز دیتا و اینترنت است. پلتفرم می‌تواند از ۱۰ کامپیوتر در یک شهر شروع شود و در سال دوم، ده‌ها هزار کامپیوتر از سراسر کشور و حتی کشورهای همسایه را به هم متصل کند. از نظر تنوع خدمات نیز، این پلتفرم می‌تواند به سمت پردازش مدل‌های پیچیده هوش مصنوعی (Machine Learning)، تحلیل داده‌های عظیم (Big Data) و شبیه‌سازی‌های پزشکی گسترش یابد.
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>5️⃣</span> مشتریان حاضرند برای آن پول پرداخت کنند؟ چرا؟</p>
+                <div class="question-card__a">
+                    <strong>قطعاً.</strong> مدل قیمت‌گذاری بر اساس <span class="inline-badge inline-badge--green">پرداخت به ازای مصرف (Pay-as-you-go)</span> است. پرداخت مثلاً ۵۰ هزار تومان برای یک ساعت رندر گرفتن یک پروژهٔ دانشگاهی مهم یا یک پروژهٔ تجاری سودآور، در برابر پرداخت ۱۰۰ میلیون تومان برای خرید کامپیوتر، پیشنهادی رد نشدنی است. ارزش خلق‌شده آن‌قدر بالاست که پرداخت این هزینه برای مشتری کاملاً منطقی و اقتصادی خواهد بود.
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>6️⃣</span> آیا امکان ارزیابی میدانی ایده وجود دارد؟ چگونه؟</p>
+                <div class="question-card__a">
+                    <strong>بله،</strong> امکان ایجاد MVP (کمینه محصول پذیرفتنی) بسیار ساده است. می‌توان با ۵ نفر از دوستان که سیستم‌های گیمینگ قوی دارند هماهنگ کرد، سپس در دانشکده‌های معماری و کامپیوتر اعلام کرد: <em>"رندر سریع پروژه‌هایتان با کمترین هزینه"</em>. فایل‌ها به صورت دستی بین متقاضی و عرضه‌کننده رد و بدل می‌شود. این ارزیابی میدانی نشان می‌دهد که آیا تقاضای واقعی وجود دارد، چه نرم‌افزارهایی بیشتر استفاده می‌شود و چالش‌های حجم فایل‌ها چیست.
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>7️⃣</span> اگر ایده شکست بخورد، محتمل‌ترین علت شکست چیست؟</p>
+                <div class="question-card__a">
+                    علل احتمالی شکست عبارت‌اند از:
+                    <strong>۱. سرعت پایین و ناپایداری اینترنت</strong> در آپلود/دانلود فایل‌های حجیم.
+                    <strong>۲. چالش‌های امنیتی:</strong> ترس متقاضیان از به سرقت رفتن فایل‌هایشان، یا ترس ارائه‌دهندگان از ویروسی شدن سیستمشان.
+                    <strong>۳. عدم تعادل بین عرضه و تقاضا</strong> در ماه‌های اولیه.
+                    در این صورت، استراتژی چرخش (Pivot) به کار گرفته می‌شود و پلتفرم از مدل P2P به یک مدل B2B تغییر می‌کند: عقد قرارداد با دانشگاه‌ها، گیم‌نت‌های بزرگ و ادارات برای استفاده از سیستم‌های بیکارشان.
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>8️⃣</span> گزینهٔ قبلی مشتریان چه بوده است؟</p>
+                <div class="question-card__a">
+                    گزینه‌های قبلی شامل: ۱. خرید اقساطی یا نقدی سیستم‌های گران‌قیمت (با تحمل فشار مالی شدید)؛ ۲. رها کردن پروژه یا پایین آوردن کیفیت خروجی؛ ۳. اجارهٔ سیستم در کافی‌نت‌های تخصصی با هزینهٔ ساعتی بالا و نیاز به حضور فیزیکی؛ ۴. استفاده از رندرفارم‌های داخلی معدود با ظرفیت محدود و قیمت بالا؛ ۵. تلاش برای استفاده از سرویس‌های خارجی (Google Colab Pro، AWS) با دور زدن تحریم‌ها و پرداخت با ارز دیجیتال که ریسک مسدود شدن اکانت را داشت.
+                </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>9️⃣</span> پول یا توجه مشتری قبلاً به سمت چه کسی می‌رفته است؟</p>
+                <div class="question-card__a">
+                    این پول تاکنون به <strong>بازار سخت‌افزار</strong> (فروشندگان قطعات کامپیوتری)، <strong>صاحبان رندرفارم‌های فیزیکی، صرافی‌های ارز دیجیتال</strong> (برای خرید گیفت‌کارت سرویس‌های خارجی) و <strong>شرکت‌های ارائه‌دهندهٔ خدمات ابری بین‌المللی</strong> پرداخت می‌شده است. رندرنت این جریان مالی را به سمت شبکهٔ کاربران داخلی و صاحبان سیستم‌های خانگی هدایت می‌کند.
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="question-card">
+                <p class="question-card__q"><span>🔟</span> فرضیات اصلی ایده چیست؟</p>
+                <div class="question-card__a">
+                    فرضیات کلیدی که باید در گذر زمان صحت‌سنجی شوند:
+                    <br>۱. کاربران به پلتفرم اعتماد می‌کنند و فایل‌های خود را روی سیستم افراد ناشناس پردازش می‌کنند.
+                    <br>۲. صاحبان سیستم‌های قدرتمند حاضرند سیستم خود را در ساعات بیکاری در اختیار شبکه بگذارند.
+                    <br>۳. پهنای باند اینترنت داخلی برای آپلود/دانلود فایل‌های حجیم (چند گیگابایتی) کافی است.
+                    <br>۴. قیمت‌گذاری پیشنهادی (حدود ۵۰ هزار تومان در ساعت) از دید مشتریان منطقی و جذاب است.
+                    <br>۵. سیستم رمزنگاری سرتاسری می‌تواند امنیت فایل‌ها را به طور کامل تضمین کند.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

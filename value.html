@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | تحلیل ارزش‌آفرینی</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; max-width: 650px; margin: 0 auto; }
+
+        .content-section { padding: 60px 0; }
+        .value-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+        }
+        .value-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px 24px;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .value-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .value-card__icon { font-size: 2rem; margin-bottom: 14px; }
+        .value-card__title { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .value-card__desc { color: var(--gray-600); font-size: 0.93rem; line-height: 2; }
+
+        .full-width-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 32px; margin-top: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .full-width-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+        .full-width-card p { color: var(--gray-600); line-height: 2; }
+
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .value-grid { grid-template-columns: 1fr; }
+            .page-hero h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="value.html">ارزش‌آفرینی</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>💎 تحلیل ارزش‌آفرینی</h1>
+            <p>رندرنت چگونه برای مشتریان، عرضه‌کنندگان و بازار ارزش خلق می‌کند؟</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="value-grid">
+                <!-- ارزش بکارگیری -->
+                <div class="value-card">
+                    <div class="value-card__icon">⚙️</div>
+                    <div class="value-card__title">ارزش بکارگیری</div>
+                    <div class="value-card__desc">
+                        برای <strong>متقاضی:</strong> دریافت فایل رندر شده با کیفیت عالی یا مدل هوش مصنوعی آموزش‌دیده در کمترین زمان ممکن.<br>
+                        برای <strong>عرضه‌کننده:</strong> استفاده مفید از دستگاه فیزیکی بدون دخالت دستی.
+                    </div>
+                </div>
+                <!-- ارزش مبادله‌ای -->
+                <div class="value-card">
+                    <div class="value-card__icon">💱</div>
+                    <div class="value-card__title">ارزش مبادله‌ای</div>
+                    <div class="value-card__desc">
+                        هزینه‌ای که بابت هر ساعت توان پردازشی پرداخت می‌شود. تبدیل قدرت پردازش بلااستفاده به پول نقد در یک بازار رقابتی و شفاف.
+                    </div>
+                </div>
+                <!-- ارزش استراتژیک -->
+                <div class="value-card">
+                    <div class="value-card__icon">🏛️</div>
+                    <div class="value-card__title">ارزش استراتژیک</div>
+                    <div class="value-card__desc">
+                        ایجاد بزرگترین ابررایانه توزیع‌شده در کشور بدون خرید حتی یک سرور. این شبکه می‌تواند در آینده برای پروژه‌های ملی تحقیق و توسعه، پردازش داده‌های هواشناسی یا توسعه مدل‌های بومی هوش مصنوعی استفاده شود.
+                    </div>
+                </div>
+                <!-- ارزش افزوده از دید عرضه‌کننده -->
+                <div class="value-card">
+                    <div class="value-card__icon">💸</div>
+                    <div class="value-card__title">ارزش افزوده از دید عرضه‌کننده</div>
+                    <div class="value-card__desc">
+                        کسب درآمد از خواب سرمایه. سیستمی که تا دیروز فقط هزینه برق و استهلاک داشت، امروز به یک دارایی درآمدزا تبدیل شده است.
+                    </div>
+                </div>
+            </div>
+
+            <!-- دو کارت آخر در یک ردیف جداگانه یا با ساختار full-width -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px;">
+                <!-- ارزش افزوده از دید مشتری -->
+                <div class="value-card">
+                    <div class="value-card__icon">🎯</div>
+                    <div class="value-card__title">ارزش افزوده از دید مشتری</div>
+                    <div class="value-card__desc">
+                        دسترسی نامحدود، آنی و ارزان به توان پردازشی بدون نیاز به خرید و نگهداری سخت‌افزار، و کاهش شدید زمان انجام پروژه‌ها. تبدیل هزینه سرمایه‌ای به هزینه عملیاتی.
+                    </div>
+                </div>
+                <!-- پایداری ارزش افزوده -->
+                <div class="value-card">
+                    <div class="value-card__icon">🔁</div>
+                    <div class="value-card__title">پایداری ارزش افزوده</div>
+                    <div class="value-card__desc">
+                        با رشد نمایی فناوری‌هایی مانند VR، AI و متاورس، نیاز به توان پردازشی دائماً افزایش می‌یابد. سخت‌افزارها مرتب قدیمی می‌شوند؛ بنابراین تقاضا برای «اجاره» توان پردازشی همواره داغ‌تر از خرید آن خواهد بود.
+                    </div>
+                </div>
+            </div>
+
+            <!-- دلایل تقلیدپذیری / سختی تقلید -->
+            <div class="full-width-card">
+                <h3>🛡️ دلایل تقلیدپذیری یا سختی تقلید ایده</h3>
+                <p>
+                    از نظر فنی، زیرساخت مشابهی قابل پیاده‌سازی است. اما دشواری اصلی در <strong>ایجاد اعتماد</strong>،
+                    <strong>زیرساخت امنیتی</strong> (رمزنگاری سرتاسری و تضمین حریم خصوصی) و
+                    <strong>دستیابی به جرم بحرانی کاربران</strong> (هم عرضه‌کننده و هم متقاضی) است.
+                    این عوامل یک <strong>اثر شبکه‌ای قوی</strong> ایجاد می‌کنند که رقابت را برای تازه‌واردها دشوار می‌سازد.
+                </p>
+            </div>
+
+            <!-- چرایی توجه مشتری -->
+            <div class="full-width-card">
+                <h3>🤔 چرا مشتری باید به رندرنت توجه کند؟</h3>
+                <p>
+                    زیرا رندرنت تنها پلتفرمی است که:
+                    <br>۱. هزینه پردازش سنگین را از یک <strong>سرمایه‌گذاری کلان</strong> به یک <strong>هزینه عملیاتی جزئی</strong> تبدیل می‌کند.
+                    <br>۲. سرعت انجام پروژه‌ها را چندین برابر افزایش می‌دهد (از ۲۰ ساعت به ۲ ساعت).
+                    <br>۳. بدون نیاز به تحریم‌شکنی، کاملاً در داخل کشور و با ریال کار می‌کند.
+                    <br>۴. امنیت فایل‌ها را با رمزنگاری تضمین می‌کند.
+                    <br>۵. به صاحبان سیستم‌های بیکار نیز درآمد غیرفعال می‌رساند.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+</body>
+</html>

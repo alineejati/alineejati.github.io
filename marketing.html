@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | طرح بازاریابی</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Content */
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card p, .card li { color: var(--gray-600); margin-bottom: 10px; }
+        .card strong { color: var(--gray-800); }
+
+        /* Funnel */
+        .funnel {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            margin: 24px 0;
+        }
+        .funnel-step {
+            background: var(--primary-bg); border: 2px solid var(--primary-light);
+            border-radius: 30px; padding: 12px 28px; font-weight: 700; font-size: 0.95rem;
+            color: var(--primary); text-align: center; min-width: 240px;
+            position: relative;
+        }
+        .funnel-step::after {
+            content: '▼'; color: var(--primary-light); font-size: 1.2rem;
+            position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);
+        }
+        .funnel-step:last-child::after { content: ''; }
+        .funnel-step--accent {
+            background: var(--accent-light); border-color: var(--accent); color: var(--accent);
+        }
+
+        /* KPIs */
+        .kpi-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin: 20px 0;
+        }
+        .kpi-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius); padding: 20px; text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .kpi-card h3 { font-size: 1.8rem; color: var(--accent); margin-bottom: 6px; }
+        .kpi-card p { font-size: 0.85rem; color: var(--gray-600); }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .funnel-step { min-width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="marketing.html">بازاریابی</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📣 طرح بازاریابی</h1>
+            <p>چگونه کاربران را به رندرنت جذب کنیم، اعتماد بسازیم و به مشتری وفادار تبدیل کنیم</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- هدف بازاریابی اولیه -->
+            <div class="card">
+                <h2 class="section-title">🎯 هدف بازاریابی اولیه</h2>
+                <p>
+                    جذب <strong>۱۰۰۰ کاربر فعال</strong> (۵۰۰ متقاضی و ۵۰۰ عرضه‌کننده) در ۳ ماه اول،
+                    با تمرکز بر <strong>دانشجویان معماری، هنر و کامپیوتر</strong> دانشگاه‌های تهران، یزد، اصفهان و مشهد.
+                </p>
+            </div>
+
+            <!-- پیام اصلی بازاریابی -->
+            <div class="card">
+                <h2 class="section-title">💬 پیام اصلی بازاریابی</h2>
+                <p style="font-size: 1.1rem; font-weight: 700; color: var(--primary); text-align: center; margin: 16px 0;">
+                    «پروژه‌ات رو ۱۰ برابر سریع‌تر تحویل بده، بدون خرید حتی یک کارت گرافیک»
+                </p>
+                <p>
+                    شعار فرعی برای عرضه‌کنندگان: <strong>«سیستم بیکارت رو به درآمد برسون — ماهی تا ۳ میلیون تومان»</strong>
+                </p>
+            </div>
+
+            <!-- کانال‌های جذب مشتری -->
+            <div class="card">
+                <h2 class="section-title">📡 کانال‌های جذب مشتری</h2>
+                <p>
+                    <strong>۱. انجمن‌ها و فروم‌های تخصصی:</strong> ارسال پست و مشارکت در انجمن‌های معماری، گرافیک، و هوش مصنوعی.<br>
+                    <strong>۲. دانشگاه‌ها:</strong> نصب پوستر در دانشکده‌های معماری و کامپیوتر، برگزاری کارگاه‌های کوتاه.<br>
+                    <strong>۳. گیم‌نت‌ها و کافی‌نت‌ها:</strong> همکاری مستقیم برای جذب عرضه‌کنندگان.<br>
+                    <strong>۴. ایمیل مارکتینگ:</strong> ارسال ایمیل به فارغ‌التحصیلان و فریلنسرها.
+                </p>
+            </div>
+
+            <!-- استراتژی محتوا -->
+            <div class="card">
+                <h2 class="section-title">📝 استراتژی محتوا</h2>
+                <p>
+                    تولید محتوای آموزشی و مقایسه‌ای برای جذب کاربران هدف:
+                    <br>• <strong>بلاگ:</strong> «چطور بدون کارت گرافیک حرفه‌ای رندر بگیریم؟» ، «مقایسه AWS، Colab و رندرنت»
+                    <br>• <strong>اینفوگرافیک:</strong> مقایسه زمان و هزینه رندر با روش‌های مختلف
+                    <br>• <strong>ویدئوی آموزشی:</strong> آموزش گام‌به‌گام آپلود فایل و محاسبه قیمت در رندرنت
+                </p>
+            </div>
+
+            <!-- تبلیغات دیجیتال -->
+            <div class="card">
+                <h2 class="section-title">📢 تبلیغات دیجیتال</h2>
+                <p>
+                    <strong>۱. تبلیغات در گوگل (کمپین سئو):</strong> خرید کلمات کلیدی «رندر ارزان»، «اجاره GPU ایران»، «پردازش ابری تحریم».<br>
+                    <strong>۲. تبلیغات در شبکه‌های اجتماعی داخلی:</strong> اینستاگرام، تلگرام، روبیکا — با هدف‌گذاری دانشجویان و گیمرها.<br>
+                    <strong>۳. بنرهای تبلیغاتی:</strong> در وب‌سایت‌های پربازدید معماری و فناوری اطلاعات.
+                </p>
+            </div>
+
+            <!-- شبکه‌های اجتماعی -->
+            <div class="card">
+                <h2 class="section-title">📱 شبکه‌های اجتماعی</h2>
+                <p>
+                    <strong>اینستاگرام:</strong> انتشار پروژه‌های موفق کاربران، نقد و بررسی، استوری تعاملی.<br>
+                    <strong>تلگرام:</strong> کانال اطلاع‌رسانی تخفیف‌ها، ربات پشتیبانی.<br>
+                    <strong>لینکدین:</strong> انتشار محتوای تخصصی برای توسعه‌دهندگان و استارتاپ‌ها.
+                </p>
+            </div>
+
+            <!-- سئو -->
+            <div class="card">
+                <h2 class="section-title">🔎 سئو یا تولید محتوای جست‌وجومحور</h2>
+                <p>
+                    بهینه‌سازی سایت برای کلمات کلیدی مانند:
+                    <br>• «رندر ارزان در ایران»
+                    <br>• «اجاره GPU برای هوش مصنوعی»
+                    <br>• «بهترین جایگزین AWS تحریم»
+                    <br>• «کسب درآمد از سیستم گیمینگ بیکار»
+                    <br>با تولید محتوای منظم و بک‌لینک‌سازی از انجمن‌ها و دانشگاه‌ها.
+                </p>
+            </div>
+
+            <!-- بازاریابی ارجاعی -->
+            <div class="card">
+                <h2 class="section-title">🔗 بازاریابی ارجاعی</h2>
+                <p>
+                    <strong>برنامه «دوستان رندرنت»:</strong>
+                    <br>هر کاربر با دعوت دوست خود، <strong>۲۰٪ تخفیف</strong> در پروژه بعدی دریافت می‌کند.
+                    <br>کاربر جدید نیز <strong>۱۰٪ تخفیف</strong> در اولین سفارش دریافت می‌کند.
+                    <br>برای عرضه‌کنندگان: به ازای معرفی یک عرضه‌کننده فعال، <strong>پاداش نقدی ۵۰ هزار تومان</strong>.
+                </p>
+            </div>
+
+            <!-- قیف بازاریابی -->
+            <div class="card">
+                <h2 class="section-title">🌀 قیف بازاریابی</h2>
+                <div class="funnel">
+                    <div class="funnel-step">۱. آگاهی — دیدن پست در شبکه‌های اجتماعی یا انجمن‌ها</div>
+                    <div class="funnel-step">۲. علاقه‌مندی — بازدید از وب‌سایت و مطالعه بلاگ</div>
+                    <div class="funnel-step">۳. ارزیابی — محاسبه قیمت با دموی تعاملی</div>
+                    <div class="funnel-step funnel-step--accent">۴. ثبت‌نام / خرید — اولین سفارش با تخفیف</div>
+                    <div class="funnel-step">۵. استفاده مجدد — بازگشت با تجربه مثبت</div>
+                    <div class="funnel-step funnel-step--accent">۶. معرفی به دیگران — ارجاع با کد تخفیف</div>
+                </div>
+            </div>
+
+            <!-- شاخص‌های سنجش -->
+            <div class="card">
+                <h2 class="section-title">📏 شاخص‌های سنجش موفقیت</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <h3>۱,۰۰۰</h3>
+                        <p>کاربر ثبت‌نامی در ۳ ماه</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>۳۰٪</h3>
+                        <p>نرخ تبدیل بازدید به ثبت‌نام</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>۵٪</h3>
+                        <p>نرخ ارجاع کاربران</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

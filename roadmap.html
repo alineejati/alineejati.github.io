@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | نقشه راه توسعه</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --transition: all 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--gray-900);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px; height: 10px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links { display: flex; gap: 28px; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); }
+        .nav__links a:hover { color: var(--primary); }
+        .nav__btn {
+            background: var(--primary); color: #fff; padding: 9px 22px;
+            border-radius: 30px; font-weight: 700; font-size: 0.9rem; transition: var(--transition);
+        }
+        .nav__btn:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(91,60,196,0.25); }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 130px 0 50px; text-align: center;
+            background: var(--primary-bg); border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .page-hero p { color: var(--gray-600); font-size: 1rem; }
+
+        /* Content */
+        .content-section { padding: 60px 0; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--gray-900);
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card p { color: var(--gray-600); margin-bottom: 10px; }
+        .card strong { color: var(--gray-800); }
+
+        /* Timeline */
+        .timeline {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            margin: 20px 0;
+        }
+        .timeline-card {
+            background: var(--white); border: 2px solid var(--primary-light);
+            border-radius: var(--radius-lg); padding: 24px;
+            position: relative;
+        }
+        .timeline-card::before {
+            content: ''; position: absolute; top: -12px; right: 24px;
+            width: 24px; height: 24px; background: var(--primary);
+            border-radius: 50%; border: 4px solid var(--white);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .timeline-card h4 {
+            font-size: 1.1rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .timeline-card ul {
+            list-style: disc; padding-right: 18px; color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+        .timeline-card ul li { margin-bottom: 6px; }
+
+        /* Challenges Grid */
+        .challenge-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin: 20px 0;
+        }
+        .challenge-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius); padding: 20px;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .challenge-card:hover { box-shadow: var(--shadow-md); }
+        .challenge-card__icon { font-size: 2rem; margin-bottom: 10px; }
+        .challenge-card h4 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+        .challenge-card p { font-size: 0.85rem; color: var(--gray-600); }
+
+        /* Risk Table */
+        .risk-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px; margin-bottom: 12px; background: var(--gray-50);
+            border-radius: var(--radius); border-right: 4px solid #ff9800;
+        }
+        .risk-item__icon { font-size: 1.5rem; min-width: 40px; text-align: center; }
+        .risk-item strong { display: block; color: var(--gray-800); margin-bottom: 4px; }
+        .risk-item p { font-size: 0.88rem; margin: 0; }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 28px 0; color: var(--gray-400);
+            font-size: 0.82rem; border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .timeline, .challenge-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span> رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="maturity.html">بلوغ</a></li>
+                <li><a href="roadmap.html">نقشه راه</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🗺️ نقشه راه توسعه کسب‌وکار</h1>
+            <p>از MVP فعلی تا چشم‌انداز بلندمدت — گام‌های پیش رو</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <!-- MVP -->
+            <div class="card">
+                <h2 class="section-title">🚀 نسخه فعلی (MVP)</h2>
+                <p>
+                    نسخه MVP رندرنت شامل یک <strong>وب‌سایت معرفی کسب‌وکار</strong> و یک 
+                    <strong>دموی محاسبه‌گر قیمت</strong> است که منطق اصلی پلتفرم را شبیه‌سازی می‌کند. 
+                    کاربر می‌تواند نوع خدمت (رندر، آموزش AI، پردازش ویدیو)، GPU مورد نظر، 
+                    حجم پروژه و زمان پردازش را انتخاب کرده و قیمت نهایی را مشاهده کند. 
+                    این نسخه فاقد پردازش واقعی، سیستم پرداخت و احراز هویت است و صرفاً 
+                    برای اعتبارسنجی ایده و ارائه به استاد طراحی شده است.
+                </p>
+            </div>
+
+            <!-- امکانات پیاده‌سازی‌شده -->
+            <div class="card">
+                <h2 class="section-title">✅ امکاناتی که در این تمرین پیاده‌سازی شده‌اند</h2>
+                <p>
+                    • وب‌سایت چندصفحه‌ای کامل با ۱۲ صفحه تحلیلی و کاربردی<br>
+                    • صفحه Landing Page با ارزش پیشنهادی، مزیت رقابتی و نظرات کاربران<br>
+                    • تحلیل بلوغ ایده با ۱۰ پرسش کلیدی<br>
+                    • تحلیل ارزش‌آفرینی با ۵ نوع ارزش<br>
+                    • بوم کسب‌وکار ۹ بخشی<br>
+                    • تحلیل بازار با ۲ پرسونای کامل<br>
+                    • تحلیل صنعت و رقبا با جدول مقایسه ۵ رقیب<br>
+                    • طرح بازاریابی با قیف ۶ مرحله‌ای<br>
+                    • مدل درآمدی و تحلیل مالی با نقطه سربه‌سر<br>
+                    • تحلیل واسطه‌گری و زنجیره ارزش<br>
+                    • دموی تعاملی محاسبه قیمت با نرخ‌های واقعی GPU
+                </p>
+            </div>
+
+            <!-- امکانات نسخه بعدی -->
+            <div class="card">
+                <h2 class="section-title">🔮 امکانات نسخه بعدی</h2>
+                <p>
+                    • <strong>سیستم ثبت‌نام و احراز هویت:</strong> ورود با شماره موبایل و تأیید دو مرحله‌ای<br>
+                    • <strong>آپلود واقعی فایل:</strong> امکان بارگذاری پروژه‌های رندر یا اسکریپت‌های AI<br>
+                    • <strong>اتصال به درگاه پرداخت:</strong> پرداخت ریالی آنلاین<br>
+                    • <strong>داشبورد کاربری:</strong> پیگیری وضعیت پروژه به‌صورت لحظه‌ای<br>
+                    • <strong>سیستم امتیازدهی:</strong> اعتبارسنجی عرضه‌کنندگان و متقاضیان<br>
+                    • <strong>نسخه موبایل:</strong> طراحی واکنش‌گرا و اپلیکیشن PWA
+                </p>
+            </div>
+
+            <!-- برنامه توسعه -->
+            <div class="card">
+                <h2 class="section-title">📅 برنامه توسعه</h2>
+                <div class="timeline">
+                    <div class="timeline-card">
+                        <h4>برنامه ۳ ماهه</h4>
+                        <ul>
+                            <li>توسعه سیستم ثبت‌نام و احراز هویت</li>
+                            <li>پیاده‌سازی آپلود فایل با محدودیت حجم</li>
+                            <li>اتصال به یک درگاه پرداخت آزمایشی</li>
+                            <li>تست با ۱۰ کاربر واقعی (۵ متقاضی + ۵ عرضه‌کننده)</li>
+                            <li>جمع‌آوری بازخورد و اصلاح UX</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-card">
+                        <h4>برنامه ۶ ماهه</h4>
+                        <ul>
+                            <li>راه‌اندازی کامل سیستم توزیع و زمان‌بندی پردازش</li>
+                            <li>پیاده‌سازی رمزنگاری سرتاسری فایل‌ها</li>
+                            <li>کمپین بازاریابی دانشگاهی</li>
+                            <li>جذب ۵۰۰ کاربر فعال</li>
+                            <li>رسیدن به ۵۰ تراکنش روزانه</li>
+                            <li>ارائه نسخه PWA برای موبایل</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- چالش‌ها -->
+            <div class="card">
+                <h2 class="section-title">⚠️ چالش‌ها</h2>
+                <div class="challenge-grid">
+                    <div class="challenge-card">
+                        <div class="challenge-card__icon">🔧</div>
+                        <h4>چالش‌های فنی</h4>
+                        <p>
+                            • پیاده‌سازی توزیع بار بین سیستم‌های ناهمگون<br>
+                            • رمزنگاری فایل‌های حجیم بدون افت سرعت<br>
+                            • مدیریت قطعی سیستم عرضه‌کننده حین پردازش<br>
+                            • سازگاری با نسخه‌های مختلف نرم‌افزارها
+                        </p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="challenge-card__icon">📉</div>
+                        <h4>چالش‌های بازار</h4>
+                        <p>
+                            • جذب هم‌زمان عرضه‌کننده و متقاضی (مشکل مرغ و تخم‌مرغ)<br>
+                            • رقابت با سرویس‌های رایگان خارجی با دور زدن تحریم<br>
+                            • محدودیت پهنای باند اینترنت داخلی<br>
+                            • عدم آگاهی بازار از مفهوم پردازش ابری
+                        </p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="challenge-card__icon">⚖️</div>
+                        <h4>چالش‌های حقوقی و اعتماد</h4>
+                        <p>
+                            • نبود چارچوب قانونی برای پردازش توزیع‌شده<br>
+                            • مسئولیت قانونی در صورت نشت داده‌ها<br>
+                            • بی‌اعتمادی کاربران به امنیت پلتفرم<br>
+                            • نگرانی از استفاده غیرمجاز از سیستم عرضه‌کننده
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ریسک‌ها و راهکارها -->
+            <div class="card">
+                <h2 class="section-title">🛡️ ریسک‌های اصلی و راهکارهای کاهش آن‌ها</h2>
+                <div class="risk-item">
+                    <span class="risk-item__icon">🔴</span>
+                    <div>
+                        <strong>ریسک ۱: عدم جذب جرم بحرانی کاربران</strong>
+                        <p>راهکار: شروع با یک جامعه کوچک (دانشگاه یزد)، ارائه تخفیف‌های وسوسه‌انگیز، برنامه ارجاعی قوی.</p>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <span class="risk-item__icon">🟠</span>
+                    <div>
+                        <strong>ریسک ۲: نشت داده یا هک امنیتی</strong>
+                        <p>راهکار: ممیزی امنیتی منظم، استفاده از پروتکل‌های رمزنگاری استاندارد، بیمه مسئولیت سایبری.</p>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <span class="risk-item__icon">🟡</span>
+                    <div>
+                        <strong>ریسک ۳: عدم تعادل عرضه و تقاضا</strong>
+                        <p>راهکار: سیستم قیمت‌گذاری پویا (Dynamic Pricing)، مشوق‌های مالی برای طرف کم‌یاب‌تر، صف انتظار شفاف.</p>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <span class="risk-item__icon">🟢</span>
+                    <div>
+                        <strong>ریسک ۴: مشکلات پرداخت و تسویه</strong>
+                        <p>راهکار: همکاری با چند درگاه پرداخت هم‌زمان، کیف پول داخلی، تسویه هفتگی خودکار.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>

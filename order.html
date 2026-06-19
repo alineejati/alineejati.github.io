@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت سفارش | رندرنت</title>
+    <style>
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; color: #1f2937; }
+        .container { background: white; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); width: 100%; max-width: 550px; padding: 30px; border: 1px solid #e5e7eb; }
+        h2 { color: #5b3cc4; text-align: center; margin-bottom: 20px; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; color: #374151; }
+        select, input[type="range"] { width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 10px; font-family: 'Vazir', sans-serif; font-size: 0.95rem; margin-bottom: 18px; background: #f9fafb; }
+        .range-wrap { display: flex; align-items: center; gap: 10px; }
+        .range-wrap input[type="range"] { flex: 1; margin-bottom: 18px; }
+        .range-value { min-width: 40px; text-align: center; font-weight: 700; color: #5b3cc4; }
+        .radio-group { display: flex; gap: 10px; margin-bottom: 18px; }
+        .radio-option { flex: 1; text-align: center; }
+        .radio-option input { display: none; }
+        .radio-option label { display: block; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .radio-option input:checked + label { border-color: #5b3cc4; background: #f4f0ff; color: #5b3cc4; }
+        .btn { display: block; width: 100%; padding: 13px; border: none; border-radius: 30px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 15px; font-family: 'Vazir', sans-serif; transition: 0.2s; }
+        .btn-calc { background: #5b3cc4; color: white; }
+        .btn-calc:hover { background: #7c5fe6; }
+        .btn-order { background: #00a878; color: white; display: none; }
+        .btn-order:hover { background: #059669; }
+        .invoice { display: none; margin-top: 25px; background: #f4f0ff; border-radius: 16px; padding: 20px; border: 1px solid #d4c8f0; }
+        .invoice-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e0d6f5; font-size: 0.95rem; }
+        .invoice-row:last-child { border-bottom: none; }
+        .highlight { font-weight: 700; color: #5b3cc4; font-size: 1.1rem; }
+        .discount { color: #00a878; }
+        .error { display: none; background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 10px; margin-top: 15px; text-align: center; font-weight: 600; }
+        .success { display: none; background: #e6f9f3; color: #00a878; padding: 12px; border-radius: 10px; margin-top: 15px; text-align: center; font-weight: 600; }
+        .note { font-size: 0.8rem; color: #6b7280; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚡ ثبت سفارش جدید</h2>
+        <label>نوع خدمت</label>
+        <select id="serviceType">
+            <option value="render">🎨 رندرینگ سه‌بعدی (Blender, 3ds Max, Maya)</option>
+            <option value="ai">🤖 آموزش هوش مصنوعی (TensorFlow, PyTorch)</option>
+            <option value="video">🎬 پردازش ویدیو (After Effects, Premiere)</option>
+        </select>
+
+        <label>نوع پردازنده گرافیکی (GPU)</label>
+        <select id="gpuType">
+            <option value="3060">🟢 NVIDIA RTX 3060 — ۱۲ گیگابایت (اقتصادی)</option>
+            <option value="4070" selected>🟡 NVIDIA RTX 4070 — ۱۲ گیگابایت (متوسط)</option>
+            <option value="4090">🔴 NVIDIA RTX 4090 — ۲۴ گیگابایت (حرفه‌ای)</option>
+        </select>
+
+        <label>حجم پروژه (گیگابایت)</label>
+        <div class="range-wrap">
+            <input type="range" id="projectSize" min="1" max="50" value="5" step="1">
+            <span class="range-value" id="sizeValue">۵</span>
+        </div>
+
+        <label>مدت زمان تخمینی پردازش (ساعت)</label>
+        <div class="range-wrap">
+            <input type="range" id="duration" min="1" max="48" value="3" step="1">
+            <span class="range-value" id="durationValue">۳</span>
+        </div>
+
+        <label>اولویت پردازش</label>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" name="priority" id="normal" value="normal" checked>
+                <label for="normal">🚶 معمولی</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="priority" id="fast" value="fast">
+                <label for="fast">⚡ فوری (+۴۰٪)</label>
+            </div>
+        </div>
+
+        <button class="btn btn-calc" onclick="calculateInvoice()">💰 محاسبه قیمت نهایی</button>
+
+        <!-- پیش‌نمایش فاکتور -->
+        <div class="invoice" id="invoice">
+            <div class="invoice-row"><span>نوع خدمت انتخاب‌شده:</span> <span id="invService">—</span></div>
+            <div class="invoice-row"><span>GPU انتخاب‌شده:</span> <span id="invGpu">—</span></div>
+            <div class="invoice-row"><span>مدت زمان پردازش:</span> <span id="invDuration">—</span></div>
+            <div class="invoice-row"><span>هزینه پایه (ساعتی):</span> <span id="invBaseCost">—</span></div>
+            <div class="invoice-row"><span>کارمزد پلتفرم (۱۵٪):</span> <span id="invFee">—</span></div>
+            <div class="invoice-row discount" id="discountRow" style="display:none;"><span>🎉 تخفیف ویژه (۱۰٪):</span> <span id="invDiscount">—</span></div>
+            <div class="invoice-row highlight"><span>💰 مبلغ قابل پرداخت:</span> <span id="invTotal">—</span></div>
+            <div class="invoice-row"><span>📉 صرفه‌جویی نسبت به خرید سخت‌افزار:</span> <span id="invSavings">—</span></div>
+            <div class="note">💡 یادآوری: با خرید سخت‌افزار مشابه، حداقل ۵۰ تا ۱۰۰ میلیون تومان هزینه می‌کردید.</div>
+            <button class="btn btn-order" id="orderBtn" onclick="submitOrder()">✅ ثبت نهایی سفارش</button>
+        </div>
+
+        <div class="error" id="errorMsg"></div>
+        <div class="success" id="successMsg"></div>
+    </div>
+
+    <script>
+        const gpuPrices = { '3060': 35000, '4070': 60000, '4090': 120000 };
+        const serviceMultipliers = { 'render': 1.0, 'ai': 1.5, 'video': 1.2 };
+        const serviceLabels = { 'render': 'رندرینگ سه‌بعدی', 'ai': 'آموزش هوش مصنوعی', 'video': 'پردازش ویدیو' };
+        const gpuLabels = { '3060': 'RTX 3060 (اقتصادی)', '4070': 'RTX 4070 (متوسط)', '4090': 'RTX 4090 (حرفه‌ای)' };
+
+        let finalCost = 0;
+
+        // به‌روزرسانی اسلایدرها
+        document.getElementById('projectSize').addEventListener('input', function() {
+            document.getElementById('sizeValue').textContent = this.value;
+        });
+        document.getElementById('duration').addEventListener('input', function() {
+            document.getElementById('durationValue').textContent = this.value;
+        });
+
+        function calculateInvoice() {
+            const service = document.getElementById('serviceType').value;
+            const gpu = document.getElementById('gpuType').value;
+            const hours = parseInt(document.getElementById('duration').value);
+            const sizeInGB = parseInt(document.getElementById('projectSize').value);
+            const priority = document.querySelector('input[name="priority"]:checked').value;
+
+            const basePricePerHour = gpuPrices[gpu] * serviceMultipliers[service];
+            let baseCost = basePricePerHour * hours;
+            baseCost = Math.round(baseCost * (1 + sizeInGB * 0.05));
+            if (priority === 'fast') baseCost = Math.round(baseCost * 1.4);
+
+            const fee = Math.round(baseCost * 0.15);
+            let total = baseCost + fee;
+
+            // تخفیف ویژه
+            const phone = localStorage.getItem('currentUserPhone');
+            let discount = 0;
+            if (phone) {
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = users.find(u => u.phone === phone);
+                if (user && user.level === 'ویژه') {
+                    discount = Math.round(total * 0.1);
+                    total -= discount;
+                }
+            }
+
+            finalCost = total;
+
+            // نمایش فاکتور
+            document.getElementById('invService').textContent = serviceLabels[service];
+            document.getElementById('invGpu').textContent = gpuLabels[gpu];
+            document.getElementById('invDuration').textContent = hours + ' ساعت';
+            document.getElementById('invBaseCost').textContent = baseCost.toLocaleString() + ' تومان';
+            document.getElementById('invFee').textContent = fee.toLocaleString() + ' تومان';
+
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('invDiscount').textContent = '−' + discount.toLocaleString() + ' تومان';
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            document.getElementById('invTotal').textContent = total.toLocaleString() + ' تومان';
+
+            const savingsPercent = Math.round((1 - (total / 80000000)) * 100);
+            document.getElementById('invSavings').textContent = (savingsPercent > 0 ? savingsPercent : 0) + '٪ صرفه‌جویی';
+
+            document.getElementById('invoice').style.display = 'block';
+            document.getElementById('orderBtn').style.display = 'block';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'none';
+        }
+
+        function submitOrder() {
+            const phone = localStorage.getItem('currentUserPhone');
+            if (!phone) { alert('لطفاً ابتدا وارد شوید.'); window.location.href = 'customer-login.html'; return; }
+
+            const creditKey = 'credit_' + phone;
+            let currentCredit = parseInt(localStorage.getItem(creditKey) || '250000');
+
+            if (currentCredit < finalCost) {
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('errorMsg').innerHTML = `⚠️ موجودی کیف پول شما (${currentCredit.toLocaleString()} تومان) کافی نیست. <a href="wallet.html" style="color:#f59e0b; font-weight:700;">افزایش موجودی</a>`;
+                document.getElementById('successMsg').style.display = 'none';
+                return;
+            }
+
+            // کسر اعتبار
+            const newCredit = currentCredit - finalCost;
+            localStorage.setItem(creditKey, newCredit.toString());
+
+            // ذخیره سفارش
+            const ordersKey = 'orders_' + phone;
+            const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
+            const service = document.getElementById('serviceType').value;
+            const gpu = document.getElementById('gpuType').value;
+            const hours = parseInt(document.getElementById('duration').value);
+            const volume = document.getElementById('projectSize').value + ' GB';
+
+            orders.push({
+                id: Date.now(),
+                type: serviceLabels[service],
+                gpu: gpu.toUpperCase(),
+                volume: volume,
+                hours: hours,
+                cost: finalCost,
+                date: new Date().toLocaleDateString('fa-IR'),
+                status: 'در انتظار پردازش'
+            });
+            localStorage.setItem(ordersKey, JSON.stringify(orders));
+
+            document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('successMsg').innerHTML = `✅ سفارش با موفقیت ثبت شد! (${finalCost.toLocaleString()} تومان کسر گردید) <a href="customer-orders.html" style="color:#5b3cc4; font-weight:700;">مشاهده سفارشات</a>`;
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('orderBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

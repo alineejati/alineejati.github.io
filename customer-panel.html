@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مشتری | رندرنت</title>
+    <style>
+        /* همان استایل قبلی */
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Vazir'; src: url('assets/fonts/Vazir-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        body { background: #f9fafb; font-family: 'Vazir', Tahoma, sans-serif; color: #1f2937; margin: 0; display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: white; border-left: 1px solid #e5e7eb; padding: 25px 20px; display: flex; flex-direction: column; gap: 18px; font-size: 0.95rem; box-shadow: 2px 0 10px rgba(0,0,0,0.03); }
+        .sidebar a { color: #4b5563; text-decoration: none; padding: 10px 14px; border-radius: 10px; transition: 0.2s; display: block; }
+        .sidebar a:hover { background: #f4f0ff; color: #5b3cc4; }
+        .main { flex: 1; padding: 30px 35px; }
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
+        .header-panel h1 { font-size: 1.6rem; color: #5b3cc4; }
+        .badge { background: #e6f9f3; color: #00a878; padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 35px; }
+        .stat-card { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: 0.2s; }
+        .stat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); border-color: #5b3cc4; }
+        .stat-card h3 { font-size: 1.8rem; color: #5b3cc4; font-weight: 800; margin-bottom: 6px; }
+        .stat-card p { color: #6b7280; font-size: 0.9rem; }
+        .quick-access { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .quick-access h4 { margin-bottom: 18px; color: #1f2937; }
+        .btn-order { background: #5b3cc4; color: white; padding: 12px 26px; border-radius: 30px; text-decoration: none; font-weight: 600; display: inline-block; transition: 0.2s; }
+        .btn-order:hover { background: #7c5fe6; }
+        .upgrade-btn { background: #f59e0b; color: white; padding: 10px 24px; border-radius: 30px; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 15px; }
+        .upgrade-btn:hover { background: #d97706; }
+        @media (max-width: 768px) { .sidebar { display: none; } .dashboard-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3 style="color: #5b3cc4; margin-bottom: 15px;">👤 مشتری</h3>
+        <a href="customer-panel.html">📊 داشبورد</a>
+        <a href="order.html">🛒 سفارش جدید</a>
+        <a href="customer-orders.html">📋 سفارشات من</a>
+        <a href="customer-history.html">📋 تاریخچه سفارشات</a>
+        <a href="wallet.html">💰 کیف پول</a>
+        <a href="#" onclick="logout()">🚪 خروج</a>
+    </div>
+    <div class="main">
+        <div class="header-panel">
+            <h1>پنل مشتری</h1>
+            <span class="badge" id="userLevel">سطح: ویژه</span>
+        </div>
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3 id="creditDisplay">۰ تومان</h3>
+                <p>اعتبار کیف پول</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeOrders">۰</h3>
+                <p>سفارش فعال</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedOrders">۰</h3>
+                <p>سفارش تکمیل‌شده</p>
+            </div>
+        </div>
+        <div class="quick-access">
+            <h4>📌 دسترسی سریع</h4>
+            <a href="order.html" class="btn-order">➕ ثبت سفارش جدید</a>
+            <div id="upgradeSection"></div>
+        </div>
+    </div>
+    <script>
+        const phone = localStorage.getItem('currentUserPhone');
+        if (!phone) { window.location.href = 'customer-login.html'; }
+
+        const creditKey = 'credit_' + phone;
+        const ordersKey = 'orders_' + phone;
+        if (!localStorage.getItem(creditKey)) localStorage.setItem(creditKey, '250000');
+        if (!localStorage.getItem(ordersKey)) localStorage.setItem(ordersKey, '[]');
+
+        const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        const user = users.find(u => u.phone === phone);
+        if (user) {
+            document.querySelector('.header-panel h1').textContent = `خوش آمدید، ${user.name}`;
+            document.getElementById('userLevel').textContent = `سطح: ${user.level}`;
+
+            // نمایش دکمه ارتقا اگر سطح معمولی باشد
+            if (user.level === 'معمولی') {
+                document.getElementById('upgradeSection').innerHTML = `
+                    <a href="upgrade.html" class="upgrade-btn">⭐ ارتقا به کاربر ویژه</a>
+                `;
+            }
+        }
+
+        document.getElementById('creditDisplay').textContent = parseInt(localStorage.getItem(creditKey)).toLocaleString() + ' تومان';
+
+        const orders = JSON.parse(localStorage.getItem(ordersKey));
+        document.getElementById('activeOrders').textContent = orders.filter(o => o.status !== 'تکمیل شده' && o.status !== 'رد شده').length;
+        document.getElementById('completedOrders').textContent = orders.filter(o => o.status === 'تکمیل شده').length;
+
+        function logout() {
+            localStorage.removeItem('currentUserPhone');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

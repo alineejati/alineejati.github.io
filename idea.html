@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رندرنت | ایده و جرقه اولیه</title>
+    <style>
+        /* ===== Font Face (Vazir) ===== */
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazir';
+            src: url('assets/fonts/Vazir-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* ===== Reset & Variables (same as landing) ===== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --primary: #5b3cc4;
+            --primary-light: #7c5fe6;
+            --primary-bg: #f4f0ff;
+            --accent: #00a878;
+            --accent-light: #e6f9f3;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+            --transition: all 0.25s ease;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== Header (copied) ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+        }
+        .nav__logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav__logo-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 12px rgba(0,168,120,0.5);
+        }
+        .nav__links {
+            display: flex;
+            gap: 28px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        .nav__links a:hover {
+            color: var(--primary);
+        }
+        .nav__btn {
+            background: var(--primary);
+            color: #fff;
+            padding: 9px 22px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .nav__btn:hover {
+            background: var(--primary-light);
+            box-shadow: 0 6px 20px rgba(91,60,196,0.25);
+        }
+
+        /* ===== Page Hero (small) ===== */
+        .page-hero {
+            padding: 130px 0 50px;
+            text-align: center;
+            background: var(--primary-bg);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .page-hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+        .page-hero p {
+            color: var(--gray-600);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Content Section ===== */
+        .content-section {
+            padding: 60px 0;
+        }
+        .content-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 28px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .content-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .content-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .content-card__icon {
+            font-size: 1.8rem;
+        }
+        .content-card__title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        .content-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 2;
+            margin-bottom: 10px;
+        }
+        .highlight-box {
+            background: var(--accent-light);
+            border-right: 4px solid var(--accent);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin-top: 16px;
+            font-size: 0.92rem;
+            color: var(--gray-800);
+        }
+        .stat-inline {
+            display: inline-block;
+            background: var(--primary-bg);
+            color: var(--primary);
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 0 4px;
+        }
+
+        /* ===== Footer (copied) ===== */
+        .footer {
+            text-align: center;
+            padding: 28px 0;
+            color: var(--gray-400);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .page-hero h1 { font-size: 1.6rem; }
+            .content-card { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-dot"></span>
+                رندرنت
+            </a>
+            <ul class="nav__links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="idea.html">ایده</a></li>
+                <li><a href="index.html#features">ویژگی‌ها</a></li>
+                <li><a href="#">تحلیل</a></li>
+            </ul>
+            <a href="demo.html" class="nav__btn">محاسبه قیمت</a>
+        </div>
+    </header>
+
+    <!-- ==================== PAGE HERO ==================== -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>💡 جرقه اولیه — چگونه رندرنت متولد شد؟</h1>
+            <p>از یک مشاهده ساده تا یک پلتفرم تجارت الکترونیک تمام‌عیار</p>
+        </div>
+    </section>
+
+    <!-- ==================== CONTENT ==================== -->
+    <section class="content-section">
+        <div class="container">
+
+            <!-- ۱. شرح جرقه اولیه -->
+            <div class="content-card">
+                <div class="content-card__header">
+                    <span class="content-card__icon">🔥</span>
+                    <h2 class="content-card__title">شرح جرقه اولیه</h2>
+                </div>
+                <p>
+                    جرقهٔ اولیهٔ رندرنت از مشاهدهٔ یک <strong>تضاد بزرگ</strong> در دسترسی به منابع سخت‌افزاری شکل گرفت. 
+                    از یک سو، دانشجویان معماری، انیمیشن‌سازان، متخصصان علم داده و توسعه‌دهندگان هوش مصنوعی 
+                    برای خروجی گرفتن (رندرینگ) و آموزش مدل‌های پیچیدهٔ یادگیری عمیق، نیازمند سیستم‌های کامپیوتری 
+                    بسیار قدرتمند هستند. خرید این سیستم‌ها نیازمند ده‌ها میلیون تومان سرمایه است که برای بسیاری 
+                    از دانشجویان و فریلنسرها غیرممکن است.
+                </p>
+                <p>
+                    از سوی دیگر، گیمرها، کافی‌نت‌های مدرن، استودیوهای طراحی و حتی کاربران خانگی وجود دارند 
+                    که سیستم‌های پردازشی و گرافیکی بسیار قدرتمندی دارند، اما در طول ۲۴ ساعت شبانه‌روز، 
+                    شاید تنها چند ساعت از تمام توان آن استفاده کنند و در بقیهٔ ساعات، این سرمایهٔ گران‌قیمت 
+                    در حال خاک خوردن و افت قیمت است.
+                </p>
+                <div class="highlight-box">
+                    <strong>🎯 هستهٔ اصلی ایده:</strong> ایجاد یک پلتفرم آنلاین که این دو گروه را به هم متصل کند: 
+                    متقاضی پردازش، فایل خود را آپلود می‌کند و سیستم‌های بیکار عرضه‌کنندگان، عملیات پردازش را 
+                    انجام می‌دهند — و هزینه صرفاً بر اساس دقیقه یا ساعت پردازش پرداخت می‌شود.
+                </div>
+            </div>
+
+            <!-- ۲. چرایی انتخاب ایده -->
+            <div class="content-card">
+                <div class="content-card__header">
+                    <span class="content-card__icon">❓</span>
+                    <h2 class="content-card__title">چرایی انتخاب ایده</h2>
+                </div>
+                <p>
+                    سه دلیل اصلی باعث شد این ایده را به عنوان پروژهٔ تجارت الکترونیک خود انتخاب کنم:
+                </p>
+                <p>
+                    ۱. <strong>نیاز واقعی و مبرم بازار:</strong> قیمت نجومی قطعات کامپیوتری و نوسانات ارزی، 
+                    خرید یک کارت گرافیک رده‌بالا را برای یک دانشجو یا فریلنسر به رویایی دست‌نیافتنی تبدیل کرده است.
+                </p>
+                <p>
+                    ۲. <strong>تحریم‌ها و محدودیت‌های بین‌المللی:</strong> استفاده از سرویس‌های ابری خارجی مانند 
+                    AWS یا Google Cloud برای کاربران ایرانی به دلیل تحریم‌ها و مشکلات پرداخت ارزی، بسیار دشوار و 
+                    پرریسک است (از جمله مسدود شدن اکانت).
+                </p>
+                <p>
+                    ۳. <strong>فرصت اقتصاد اشتراکی:</strong> می‌توان از منابع توزیع‌شدهٔ داخل کشور (سیستم‌های 
+                    شخصی مردم) یک ابررایانهٔ ملی ساخت، بدون خرید حتی یک سرور فیزیکی. این یک فرصت هم برای 
+                    متقاضیان پردازش است و هم برای صاحبان سیستم‌های بیکار که به دنبال درآمد غیرفعال هستند.
+                </p>
+            </div>
+
+            <!-- ۳. ارتباط با تجارت الکترونیک -->
+            <div class="content-card">
+                <div class="content-card__header">
+                    <span class="content-card__icon">🛒</span>
+                    <h2 class="content-card__title">آیا این ایده یک تجارت الکترونیک است؟</h2>
+                </div>
+                <p>
+                    <strong>بله، کاملاً.</strong> رندرنت یک پلتفرم <strong>تجارت الکترونیک از نوع بازارگاه (Marketplace)</strong> 
+                    است که در آن یک خدمت کاملاً دیجیتال (قدرت پردازش) بین عرضه‌کنندگان و متقاضیان مبادله می‌شود. 
+                    هیچ کالای فیزیکی در این میان جابجا نمی‌شود؛ محصول نهایی یک فایل دیجیتال (خروجی رندر یا مدل آموزش‌دیده) است.
+                </p>
+                <p>
+                    <strong>درصد آنلاین بودن فرآیندها:</strong> 
+                    <span class="stat-inline">بیش از ۹۵٪</span> 
+                    تمام فرآیندهای این کسب‌وکار — از ثبت‌نام، آپلود فایل، تخصیص سیستم، پردازش، پرداخت و تسویه حساب — 
+                    به صورت کاملاً دیجیتال و آنلاین انجام می‌شود. تنها بخش آفلاین، خود سخت‌افزار فیزیکی است که 
+                    در منزل یا محل کار عرضه‌کننده قرار دارد و از طریق اینترنت به پلتفرم متصل می‌شود.
+                </p>
+            </div>
+
+            <!-- ۴. محدوده پیاده‌سازی در این پروژه -->
+            <div class="content-card">
+                <div class="content-card__header">
+                    <span class="content-card__icon">🎯</span>
+                    <h2 class="content-card__title">محدودهٔ پیاده‌سازی در این پروژه</h2>
+                </div>
+                <p>
+                    با توجه به محدودیت‌های یک پروژهٔ دانشگاهی، در این تمرین، بخش‌های زیر از ایده پیاده‌سازی می‌شود:
+                </p>
+                <p>
+                    ۱. <strong>وب‌سایت معرفی کسب‌وکار:</strong> شامل تحلیل بازار، بوم کسب‌وکار، ارزش پیشنهادی و غیره.
+                </p>
+                <p>
+                    ۲. <strong>دموی تعاملی محاسبه قیمت:</strong> کاربر می‌تواند نوع خدمت (رندر یا آموزش AI)، 
+                    حجم پروژه، کیفیت و زمان تحویل را انتخاب کرده و هزینهٔ نهایی را به صورت آنی مشاهده کند. 
+                    این بخش، هستهٔ اصلی تعامل در نسخهٔ نهایی پلتفرم را شبیه‌سازی می‌کند.
+                </p>
+                <p>
+                    ۳. <strong>مدل کسب‌وکار و تحلیل بازار:</strong> ترسیم کامل بوم کسب‌وکار، تحلیل مشتریان هدف، 
+                    رقبا، و استراتژی بازاریابی که پایهٔ نظری راه‌اندازی واقعی این پلتفرم خواهد بود.
+                </p>
+            </div>
+
+            <!-- ۵. مخاطب اولیه -->
+            <div class="content-card">
+                <div class="content-card__header">
+                    <span class="content-card__icon">👥</span>
+                    <h2 class="content-card__title">مخاطب اولیهٔ ایده</h2>
+                </div>
+                <p>
+                    رندرنت دو گروه اصلی از مخاطبان را هدف قرار می‌دهد:
+                </p>
+                <p>
+                    <strong>🟣 متقاضیان پردازش (سمت تقاضا):</strong> دانشجویان معماری و طراحی، انیمیشن‌سازان فریلنسر، 
+                    توسعه‌دهندگان هوش مصنوعی و یادگیری عمیق، و استارتاپ‌های کوچک که نیازمند پردازش‌های سنگین 
+                    گرافیکی یا محاسباتی هستند اما بودجهٔ خرید سخت‌افزار حرفه‌ای را ندارند.
+                </p>
+                <p>
+                    <strong>🟢 عرضه‌کنندگان قدرت پردازش (سمت عرضه):</strong> گیمرها، صاحبان سیستم‌های گیمینگ، 
+                    کافی‌نت‌های مدرن و استودیوهای طراحی که سخت‌افزار قدرتمند دارند اما در بسیاری از ساعات 
+                    شبانه‌روز از آن استفاده نمی‌کنند و می‌خواهند از سرمایهٔ خود درآمد غیرفعال کسب کنند.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
+        </div>
+    </footer>
+
+</body>
+</html>
