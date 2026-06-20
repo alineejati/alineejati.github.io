@@ -211,20 +211,20 @@
     <main class="page">
         <div class="container">
             <div class="page-title">
-                <h1>⚡ محاسبه‌گر قیمت پردازش</h1>
+                <h1>محاسبه‌گر قیمت پردازش</h1>
                 <p>هزینه رندر یا آموزش هوش مصنوعی خود را در چند ثانیه محاسبه کنید</p>
             </div>
 
             <div class="calc-card">
-                <h3>📋 اطلاعات پروژه</h3>
+                <h3>اطلاعات پروژه</h3>
 
                 <!-- نوع خدمت -->
                 <div class="form-group">
                     <label>نوع خدمت</label>
                     <select id="serviceType">
-                        <option value="render">🎨 رندرینگ سه‌بعدی (Blender, 3ds Max, Maya)</option>
-                        <option value="ai">🤖 آموزش هوش مصنوعی (TensorFlow, PyTorch)</option>
-                        <option value="video">🎬 پردازش ویدیو و انیمیشن (After Effects, Premiere)</option>
+                        <option value="render">رندرینگ سه‌بعدی (Blender, 3ds Max, Maya)</option>
+                        <option value="ai">آموزش هوش مصنوعی (TensorFlow, PyTorch)</option>
+                        <option value="video">پردازش ویدیو و انیمیشن (After Effects, Premiere)</option>
                     </select>
                 </div>
 
@@ -232,9 +232,9 @@
                 <div class="form-group">
                     <label>نوع پردازنده گرافیکی (GPU)</label>
                     <select id="gpuType">
-                        <option value="3060">🟢 NVIDIA RTX 3060 — ۱۲ گیگابایت (اقتصادی)</option>
-                        <option value="4070" selected>🟡 NVIDIA RTX 4070 — ۱۲ گیگابایت (متوسط)</option>
-                        <option value="4090">🔴 NVIDIA RTX 4090 — ۲۴ گیگابایت (حرفه‌ای)</option>
+                        <option value="3060">NVIDIA RTX 3060 — ۱۲ گیگابایت (اقتصادی)</option>
+                        <option value="4070" selected>NVIDIA RTX 4070 — ۱۲ گیگابایت (متوسط)</option>
+                        <option value="4090">NVIDIA RTX 4090 — ۲۴ گیگابایت (حرفه‌ای)</option>
                     </select>
                 </div>
 
@@ -262,17 +262,17 @@
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" name="priority" id="normal" value="normal" checked>
-                            <label for="normal">🚶 معمولی</label>
+                            <label for="normal">معمولی</label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" name="priority" id="fast" value="fast">
-                            <label for="fast">⚡ فوری (+۴۰٪)</label>
+                            <label for="fast">فوری (+۴۰٪)</label>
                         </div>
                     </div>
                 </div>
 
                 <button class="btn--calculate" onclick="calculatePrice()">
-                    💰 محاسبه قیمت نهایی
+                    محاسبه قیمت نهایی
                 </button>
 
                 <!-- نتیجه -->
@@ -302,15 +302,15 @@
                         <span id="resFee">—</span>
                     </div>
                     <div class="result__row result__row--highlight">
-                        <span>💰 مبلغ قابل پرداخت:</span>
+                        <span>مبلغ قابل پرداخت:</span>
                         <span id="resTotal">—</span>
                     </div>
                     <div class="result__row result__row--green">
-                        <span>📉 صرفه‌جویی نسبت به خرید سخت‌افزار:</span>
+                        <span>صرفه‌جویی نسبت به خرید سخت‌افزار:</span>
                         <span id="resSavings">—</span>
                     </div>
                     <div class="info-note">
-                        💡 <strong>یادآوری:</strong> با خرید سخت‌افزار مشابه، حداقل <strong>۵۰ تا ۱۰۰ میلیون تومان</strong> هزینه می‌کردید.
+                        <strong>یادآوری:</strong> با خرید سخت‌افزار مشابه، حداقل <strong>۵۰ تا ۱۰۰ میلیون تومان</strong> هزینه می‌کردید.
                     </div>
                 </div>
             </div>
