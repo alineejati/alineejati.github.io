@@ -157,6 +157,45 @@
             font-size: 0.82rem; border-top: 1px solid var(--gray-200);
         }
 
+                /* ========== Site Footer (Navigation) ========== */
+        .site-footer {
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            padding: 50px 0 20px;
+            margin-top: 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-col h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        .footer-col ul li a {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--primary);
+        }
+        .copyright {
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 20px;
+        }
+
+
         @media (max-width: 768px) {
             .nav__links { display: none; }
             .timeline, .challenge-grid { grid-template-columns: 1fr; }
@@ -335,11 +374,46 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
+<!-- فوتر ناوبری -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>تحلیل‌ها</h3>
+                <ul>
+                    <li><a href="idea.html">ایده و جرقه</a></li>
+                    <li><a href="maturity.html">بلوغ ایده</a></li>
+                    <li><a href="value.html">ارزش‌آفرینی</a></li>
+                    <li><a href="business-model.html">بوم کسب‌وکار</a></li>
+                    <li><a href="market.html">بازار و مشتری</a></li>
+                    <li><a href="competition.html">رقبا</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>اجرا</h3>
+                <ul>
+                    <li><a href="marketing.html">طرح بازاریابی</a></li>
+                    <li><a href="revenue.html">مدل درآمدی</a></li>
+                    <li><a href="intermediation.html">واسطه‌گری</a></li>
+                    <li><a href="roadmap.html">نقشه راه</a></li>
+                    <li><a href="summary.html">جمع‌بندی</a></li>
+                    <li><a href="demo.html">محاسبه‌گر قیمت</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>پنل‌ها</h3>
+                <ul>
+                    <li><a href="customer-login.html">پنل مشتری</a></li>
+                    <li><a href="admin-login.html">پنل ادمین</a></li>
+                    <li><a href="register.html">ثبت‌نام</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
             <p>© ۱۴۰۵ رندرنت — پروژه درس تجارت الکترونیک، دانشگاه یزد</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
 </body>
 </html>

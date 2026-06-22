@@ -14,7 +14,7 @@
         input { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-family: 'Vazir', Tahoma, sans-serif; font-size: 0.95rem; margin-bottom: 20px; background: #f9fafb; }
         button { width: 100%; padding: 14px; background: #00a878; border: none; color: white; font-weight: bold; border-radius: 30px; font-size: 1rem; cursor: pointer; font-family: 'Vazir', Tahoma, sans-serif; transition: 0.2s; }
         button:hover { background: #059669; }
-        .success-msg { display: none; background: #e6f9f3; color: #00a878; padding: 12px; border-radius: 10px; margin-top: 20px; text-align: center; font-weight: 600; }
+        .success-msg { display: none; background: #e6f9f3; color: #00a878; padding: 12px; border-radius: 10px; margin-top: 25px; text-align: center; font-weight: 600; }
         .current-credit { text-align: center; margin-bottom: 25px; color: #6b7280; }
     </style>
 </head>
@@ -43,6 +43,7 @@
             localStorage.setItem(creditKey, newCredit.toString());
             document.getElementById('currentCredit').textContent = newCredit.toLocaleString() + ' تومان';
             document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('successMsg').innerHTML = '✅ کیف پول شما با موفقیت شارژ شد! <br><a href="customer-panel.html" style="color:#5b3cc4; font-weight:700; display:inline-block; margin-top:10px;">بازگشت به داشبورد</a> | <a href="order.html" style="color:#00a878; font-weight:700;">ثبت سفارش جدید</a>';
             this.reset();
         });
     </script>
