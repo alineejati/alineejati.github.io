@@ -38,19 +38,19 @@
 </head>
 <body>
     <div class="container">
-        <h2>⚡ ثبت سفارش جدید</h2>
+        <h2>ثبت سفارش جدید</h2>
         <label>نوع خدمت</label>
         <select id="serviceType">
-            <option value="render">🎨 رندرینگ سه‌بعدی (Blender, 3ds Max, Maya)</option>
-            <option value="ai">🤖 آموزش هوش مصنوعی (TensorFlow, PyTorch)</option>
-            <option value="video">🎬 پردازش ویدیو (After Effects, Premiere)</option>
+            <option value="render">رندرینگ سه‌بعدی (Blender, 3ds Max, Maya)</option>
+            <option value="ai">آموزش هوش مصنوعی (TensorFlow, PyTorch)</option>
+            <option value="video">پردازش ویدیو (After Effects, Premiere)</option>
         </select>
 
         <label>نوع پردازنده گرافیکی (GPU)</label>
         <select id="gpuType">
-            <option value="3060">🟢 NVIDIA RTX 3060 — ۱۲ گیگابایت (اقتصادی)</option>
-            <option value="4070" selected>🟡 NVIDIA RTX 4070 — ۱۲ گیگابایت (متوسط)</option>
-            <option value="4090">🔴 NVIDIA RTX 4090 — ۲۴ گیگابایت (حرفه‌ای)</option>
+            <option value="3060">NVIDIA RTX 3060 — ۱۲ گیگابایت (اقتصادی)</option>
+            <option value="4070" selected>NVIDIA RTX 4070 — ۱۲ گیگابایت (متوسط)</option>
+            <option value="4090">NVIDIA RTX 4090 — ۲۴ گیگابایت (حرفه‌ای)</option>
         </select>
 
         <label>حجم پروژه (گیگابایت)</label>
@@ -69,15 +69,15 @@
         <div class="radio-group">
             <div class="radio-option">
                 <input type="radio" name="priority" id="normal" value="normal" checked>
-                <label for="normal">🚶 معمولی</label>
+                <label for="normal">معمولی</label>
             </div>
             <div class="radio-option">
                 <input type="radio" name="priority" id="fast" value="fast">
-                <label for="fast">⚡ فوری (+۴۰٪)</label>
+                <label for="fast">فوری (+۴۰٪)</label>
             </div>
         </div>
 
-        <button class="btn btn-calc" onclick="calculateInvoice()">💰 محاسبه قیمت نهایی</button>
+        <button class="btn btn-calc" onclick="calculateInvoice()">محاسبه قیمت نهایی</button>
 
         <!-- پیش‌نمایش فاکتور -->
         <div class="invoice" id="invoice">
@@ -87,9 +87,9 @@
             <div class="invoice-row"><span>هزینه پایه (ساعتی):</span> <span id="invBaseCost">—</span></div>
             <div class="invoice-row"><span>کارمزد پلتفرم (۱۵٪):</span> <span id="invFee">—</span></div>
             <div class="invoice-row discount" id="discountRow" style="display:none;"><span>🎉 تخفیف ویژه (۱۰٪):</span> <span id="invDiscount">—</span></div>
-            <div class="invoice-row highlight"><span>💰 مبلغ قابل پرداخت:</span> <span id="invTotal">—</span></div>
-            <div class="invoice-row"><span>📉 صرفه‌جویی نسبت به خرید سخت‌افزار:</span> <span id="invSavings">—</span></div>
-            <div class="note">💡 یادآوری: با خرید سخت‌افزار مشابه، حداقل ۵۰ تا ۱۰۰ میلیون تومان هزینه می‌کردید.</div>
+            <div class="invoice-row highlight"><span>مبلغ قابل پرداخت:</span> <span id="invTotal">—</span></div>
+            <div class="invoice-row"><span>صرفه‌جویی نسبت به خرید سخت‌افزار:</span> <span id="invSavings">—</span></div>
+            <div class="note">یادآوری: با خرید سخت‌افزار مشابه، حداقل ۵۰ تا ۱۰۰ میلیون تومان هزینه می‌کردید.</div>
             <button class="btn btn-order" id="orderBtn" onclick="submitOrder()">✅ ثبت نهایی سفارش</button>
         </div>
 
